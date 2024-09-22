@@ -1,6 +1,5 @@
 package com.craftworks.peerreview.api
 
-import androidx.compose.ui.text.capitalize
 import com.craftworks.peerreview.data.PeerReviewData
 import com.craftworks.peerreview.data.PeerReviewRole
 import kotlinx.serialization.encodeToString
@@ -14,13 +13,13 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import okhttp3.ResponseBody.Companion.toResponseBody
-import java.util.Locale
+import java.net.URL
 import java.util.UUID
 
 object ApiHelper {
 
     // Imposta il client globale con cookie
-    private val client = OkHttpClient.Builder().cookieJar(object : CookieJar {
+    private val cookieJar = object : CookieJar {
         private val cookieStore = mutableMapOf<String, List<Cookie>>()
 
         override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
@@ -28,33 +27,42 @@ object ApiHelper {
         }
 
         override fun loadForRequest(url: HttpUrl): List<Cookie> {
-            return cookieStore[url.host] ?: emptyList()
+            println("loading cookies for url $url")
+            return cookieStore[url.host] ?: listOf()
         }
-    }).build()
+    }
 
-    fun sendApiRequest(
+    private val client = OkHttpClient.Builder().cookieJar(cookieJar).build()
+
+    fun sendApiRequestPOST(
         data: PeerReviewData? = null,
         postUrl: String,
     ): Response {
-        val request = Request.Builder().url(getApiBase() + postUrl)
 
-        if (data != null){
-            // Encode data to json
-            val json = Json.encodeToString(data)
-            val body = json.toRequestBody("application/json".toMediaTypeOrNull())
-            //println(json)
+        // Encode data to json
+        val json = Json.encodeToString(data)
+        val body = json.toRequestBody("application/json".toMediaTypeOrNull())
 
-            request.post(body)
-        }
+        val request = Request.Builder().url(getApiBase() + postUrl).post(body)
 
         // Try sending request.
-        try {
-            val connection = client.newCall(request.build()).execute()
-            //println("message: ${connection.message}, body: ${connection.body?.string()}, request: ${connection.request}")
-            return connection
+        return try {
+            client.newCall(request.build()).execute()
         } catch (e: Exception) {
-            //loginStatus.value = e.message.toString();
-            return Response.Builder().body(e.message?.toResponseBody()).build()
+            Response.Builder().body(e.message?.toResponseBody()).build()
+        }
+    }
+
+    fun sendApiRequestGET(
+        getUrl: String,
+    ): Response {
+        val request = Request.Builder().url(getApiBase() + getUrl).build()
+
+        // Try sending request.
+        return try {
+            client.newCall(request).execute()
+        } catch (e: Exception) {
+            Response.Builder().body(e.message?.toResponseBody()).build()
         }
     }
 

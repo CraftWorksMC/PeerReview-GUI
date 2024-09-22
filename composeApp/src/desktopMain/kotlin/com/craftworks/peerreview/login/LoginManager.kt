@@ -118,7 +118,7 @@ class LoginManager {
             website = 8
         )
 
-        return ApiHelper.sendApiRequest(loginData, ApiHelper.postLogin())
+        return ApiHelper.sendApiRequestPOST(loginData, ApiHelper.postLogin())
     }
 
     private fun getAuthToken(loginResponse: Response): String {
@@ -160,7 +160,7 @@ class LoginManager {
 
     private fun getRole(roleData: PeerReviewRoleJsonData): Response {
         //println(roleData)
-        return ApiHelper.sendApiRequest(roleData, ApiHelper.postRole())
+        return ApiHelper.sendApiRequestPOST(roleData, ApiHelper.postRole())
     }
 
 }

@@ -18,4 +18,12 @@
     <string name="header_login">Accedi</string>
     <string name="header_lessons">Lezioni della classe </string>
 
+
+    <!-- Lessons Screen -->
+    <string name="lessons_title">Titolo</string>
+    <string name="lessons_created">Creato il</string>
+    <string name="lessons_first_deadline">Prima scadenza</string>
+    <string name="lessons_questions">Domande fatte</string>
+    <string name="lessons_second_deadline">Seconda scadenza</string>
+    <string name="lessons_feedback">Feedback</string>
 </resources>

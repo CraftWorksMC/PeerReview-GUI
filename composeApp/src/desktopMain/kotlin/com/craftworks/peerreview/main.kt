@@ -1,13 +1,10 @@
 package com.craftworks.peerreview
 
-import LoginScreenAnim
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.animation.with
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -63,7 +60,6 @@ fun main() = application {
         ) {
             AnimatedContent(
                 targetState = LoginManager.isLoggedIn,
-                //targetState = false,
                 transitionSpec = {
                     fadeIn(animationSpec = tween(300)) togetherWith
                             fadeOut(animationSpec = tween(300))
@@ -110,15 +106,6 @@ fun DrawerContent(onItemClick: (String) -> Unit) {
         modifier = Modifier.padding(12.dp)
     ) {
         // Baobab.school Logo
-//        CoilImage(
-//            imageModel = { Res.drawable.BaobabLogoNew },
-//            imageOptions = ImageOptions(
-//                contentScale = ContentScale.FillHeight,
-//                alignment = Alignment.Center
-//            ),
-//            modifier = Modifier.fillMaxWidth().wrapContentHeight()
-//        )
-
         Image(
             painter = painterResource(Res.drawable.BaobabLogoNew),
             contentScale = ContentScale.FillWidth,
