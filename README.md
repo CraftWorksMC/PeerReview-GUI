@@ -1,11 +1,17 @@
-This is a Kotlin Multiplatform project targeting Desktop.
+<details open>
+<summary>Italiano</summary>
+<br>
+Riscritto PeerReview con una GUI. Scritto in Kotlin e Compose Multiplatform (Solo desktop), offre una interfaccia semplice e pulita, seguendo i principi di design Material You di Google.
 
-* `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - `commonMain` is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    `iosMain` would be the right folder for such calls.
+:warning: È ancora molto presto in sviluppo. Molte cose neanche funzionano.
+</details>
 
+<br><br>
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+<details>
+<summary>English</summary>
+<br>
+GUI rewrite of the program PeerReview. Built with Kotlin and Compose Multiplatform (Desktop only) to offer a clean UI using Google's Material You design language.
+
+:warning: It's still very early in development. Most stuff doesn't even work.
+</details>
