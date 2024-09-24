@@ -1,17 +1,45 @@
-<details open>
-<summary>Italiano</summary>
-<br>
-Riscritto PeerReview con una GUI. Scritto in Kotlin e Compose Multiplatform (Solo desktop), offre una interfaccia semplice e pulita, seguendo i principi di design Material You di Google.
 
-:warning: È ancora molto presto in sviluppo. Molte cose neanche funzionano.
-</details>
+# Peer Review - GUI
 
-<br><br>
+Client per PeerReview scritto in Kotlin e Jetpack Compose Multiplatform.
+⚠️ Questo programma non è ancora a un punto di essere utlizzabile.
 
-<details>
-<summary>English</summary>
-<br>
-GUI rewrite of the program PeerReview. Built with Kotlin and Compose Multiplatform (Desktop only) to offer a clean UI using Google's Material You design language.
 
-:warning: It's still very early in development. Most stuff doesn't even work.
-</details>
+## Features
+
+- Design Material 3 di Google.
+- Schermata di login.
+- Fine, il resto è ancora WIP
+
+
+## Come compilare
+
+Prerequisiti:
+- Android Studio
+- Java 17
+
+Clona la repository:
+
+```bash
+  File > New > Project from Version Control
+```
+
+Inserisci l'URL di github:
+
+```bash
+  https://github.com/CraftWorksMC/PeerReview-GUI
+```
+
+In alto a destra, cliccare su modifica configurazioni, e creare 2 configurazioni Gradle: 
+
+- Comando Gradle per avviare il programma in debug
+
+```bash
+  composeApp:run
+```
+
+- Comando Gradle per creare un eseguibile
+
+```bash
+  composeApp:createDistributable
+```
