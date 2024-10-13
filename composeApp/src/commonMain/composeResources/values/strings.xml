@@ -17,13 +17,22 @@
     <!-- Screen Titles -->
     <string name="header_login">Accedi</string>
     <string name="header_lessons">Lezioni della classe </string>
+    <string name="header_grades">Voti</string>
 
 
-    <!-- Lessons Screen -->
+    <!-- Student Lessons Screen -->
     <string name="lessons_title">Titolo</string>
     <string name="lessons_created">Creato il</string>
     <string name="lessons_first_deadline">Prima scadenza</string>
     <string name="lessons_questions">Domande fatte</string>
     <string name="lessons_second_deadline">Seconda scadenza</string>
     <string name="lessons_feedback">Feedback dato</string>
+
+    <!-- Student Grades Screen -->
+    <string name="grades_question">Domanda: </string>
+    <string name="grades_answer">Risposta: </string>
+    <string name="grades_feedback">Feedback: </string>
+    <string name="grades_grade">Voto: </string>
+    <string name="grades_missing_elements">Mancanze: </string>
+    <string name="grades_created">Creato il: </string>
 </resources>

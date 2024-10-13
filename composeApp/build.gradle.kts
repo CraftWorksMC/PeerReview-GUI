@@ -25,6 +25,8 @@ kotlin {
 
             implementation("com.github.skydoves:landscapist-coil3:2.3.8")
 
+            implementation("com.github.GIGAMOLE:ComposeFadingEdges:1.0.4")
+
             implementation(compose.materialIconsExtended)
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
             implementation("org.jetbrains.androidx.navigation:navigation-compose:2.7.0-alpha07")

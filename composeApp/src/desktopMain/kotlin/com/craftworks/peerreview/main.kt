@@ -119,7 +119,7 @@ fun DrawerContent(onItemClick: (String) -> Unit) {
         NavigationDrawerItem(
             label = { Text(stringResource(Res.string.nav_lessons)) },
             selected = false,
-            onClick = { onItemClick(Screen.Lessons.route) },
+            onClick = { onItemClick(Screen.S_Lessons.route) },
             colors = navigationDrawerColors,
             modifier = Modifier.padding(vertical = 6.dp).height(48.dp),
             shape = RoundedCornerShape(12.dp),
@@ -127,7 +127,7 @@ fun DrawerContent(onItemClick: (String) -> Unit) {
         NavigationDrawerItem(
             label = { Text(stringResource(Res.string.nav_answer)) },
             selected = false,
-            onClick = { onItemClick(Screen.Lessons.route) },
+            onClick = { onItemClick(Screen.S_Lessons.route) },
             colors = navigationDrawerColors,
             modifier = Modifier.padding(vertical = 6.dp).height(48.dp),
             shape = RoundedCornerShape(12.dp),
@@ -135,7 +135,7 @@ fun DrawerContent(onItemClick: (String) -> Unit) {
         NavigationDrawerItem(
             label = { Text(stringResource(Res.string.nav_feedback)) },
             selected = false,
-            onClick = { onItemClick(Screen.Lessons.route) },
+            onClick = { onItemClick(Screen.S_Lessons.route) },
             colors = navigationDrawerColors,
             modifier = Modifier.padding(vertical = 6.dp).height(48.dp),
             shape = RoundedCornerShape(12.dp),
@@ -143,7 +143,7 @@ fun DrawerContent(onItemClick: (String) -> Unit) {
         NavigationDrawerItem(
             label = { Text(stringResource(Res.string.nav_grades)) },
             selected = false,
-            onClick = { onItemClick(Screen.Lessons.route) },
+            onClick = { onItemClick(Screen.S_Grades.route) },
             colors = navigationDrawerColors,
             modifier = Modifier.padding(vertical = 6.dp).height(48.dp),
             shape = RoundedCornerShape(12.dp),

@@ -155,12 +155,12 @@ object ApiHelper {
     }
 
     fun getAnswerStudentsDone(
-        token: UUID,
+        token: String,
         lessonId: Int,
         role: PeerReviewRole,
         website: Int = 8
     ): String {
-        return "PeerReview/Answer/Lesson/$website/${role.ordinal}/$lessonId/$token"
+        return "PeerReview/Answer/Lesson/$website/${role.ordinal + 1}/$lessonId/$token"
     }
 
     fun postEnroll(): String {
