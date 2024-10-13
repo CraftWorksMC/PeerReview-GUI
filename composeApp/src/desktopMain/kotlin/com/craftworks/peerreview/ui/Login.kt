@@ -1,20 +1,6 @@
 package com.craftworks.peerreview.ui
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
-import androidx.compose.animation.slideIn
-import androidx.compose.animation.slideOut
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -24,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -32,7 +17,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -55,8 +39,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -65,7 +47,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.craftworks.peerreview.data.Credentials
@@ -83,7 +64,6 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import peerreview.composeapp.generated.resources.Outfit_Bold
 import peerreview.composeapp.generated.resources.Res
 import peerreview.composeapp.generated.resources.header_login
-import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Preview
@@ -114,7 +94,8 @@ fun LoginScreen() {
 
                     if (credentials.email.isBlank() ||
                         credentials.password.isBlank() ||
-                        credentials.courseID.isBlank()) return@launch
+                        credentials.courseID.isBlank()
+                    ) return@launch
 
                     email = credentials.email
                     password = credentials.password
@@ -151,7 +132,7 @@ fun LoginScreen() {
                 .padding(12.dp)
                 .clip(RoundedCornerShape(12.dp))
                 .background(peerReviewColorScheme.surfaceContainer)
-        ){
+        ) {
             Text(
                 text = stringResource(Res.string.header_login),
                 modifier = Modifier.align(Alignment.Center),
@@ -185,7 +166,8 @@ fun LoginScreen() {
             singleLine = true,
             visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             trailingIcon = {
-                val icon = if (passwordVisible) Icons.Rounded.Visibility else Icons.Rounded.VisibilityOff
+                val icon =
+                    if (passwordVisible) Icons.Rounded.Visibility else Icons.Rounded.VisibilityOff
                 IconButton(onClick = { passwordVisible = !passwordVisible }) {
                     Icon(
                         imageVector = icon,
@@ -261,9 +243,12 @@ fun LoginScreen() {
         Modifier.fillMaxSize()
             .circularReveal(
                 isVisible = LoginManager.loginStatus.isNotBlank(),
-                revealFrom = Offset(buttonPosition.x + (buttonSize.width / 2), buttonPosition.y + (buttonSize.height / 2)),
+                revealFrom = Offset(
+                    buttonPosition.x + (buttonSize.width / 2),
+                    buttonPosition.y + (buttonSize.height / 2)
+                ),
                 durationMillis = 1000,
-                easing = FastOutSlowInEasing
+                //easing = FastOutSlowInEasing
             )
             .background(peerReviewColorScheme.surfaceContainer)
             .then(
@@ -271,9 +256,7 @@ fun LoginScreen() {
                     Modifier.pointerInput(Unit) { detectTapGestures { } }
                 else
                     Modifier
-            )
-
-        ,
+            ),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {

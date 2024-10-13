@@ -29,9 +29,9 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
-fun EnrollStudentScreen(){
-    var nameSurname:String by remember { mutableStateOf("") }
-    var registerNumber:String by remember { mutableStateOf("") }
+fun EnrollStudentScreen() {
+    var nameSurname: String by remember { mutableStateOf("") }
+    var registerNumber: String by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -80,7 +80,7 @@ fun EnrollStudentScreen(){
         Button(
             onClick = {
                 if (registerNumber.toInt() > 0)
-                LoginManager.isStudentEnrolled.value = true
+                    LoginManager.isStudentEnrolled.value = true
             },
             modifier = Modifier
                 .padding(vertical = 8.dp)

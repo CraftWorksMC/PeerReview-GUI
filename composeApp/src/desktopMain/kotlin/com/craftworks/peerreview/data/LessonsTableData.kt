@@ -11,8 +11,8 @@ data class StudentLessonsTableData(
     val created_at: String,
     val first_deadline: String,
     val second_deadline: String,
-    val count_questions_made: String,
-    val count_feedback_made: String,
+    val count_questions_made: Int,
+    val count_feedback_made: Int,
 )
 
 @Serializable

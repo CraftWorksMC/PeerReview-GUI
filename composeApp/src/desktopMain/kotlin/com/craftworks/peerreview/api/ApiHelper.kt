@@ -13,26 +13,51 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import okhttp3.ResponseBody.Companion.toResponseBody
-import java.net.URL
 import java.util.UUID
 
 object ApiHelper {
 
     // Imposta il client globale con cookie
     private val cookieJar = object : CookieJar {
-        private val cookieStore = mutableMapOf<String, List<Cookie>>()
+        //private val cookieStore = mutableMapOf<String, List<Cookie>>()
+        private val cookieStore: MutableMap<String, MutableList<Cookie>> = mutableMapOf()
+
+//        override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
+//            println("saving cookies for url ${url.host}: \n $cookies")
+//            cookieStore[url.host] = cookies
+//        }
+//
+//        override fun loadForRequest(url: HttpUrl): List<Cookie> {
+//            println("loading cookies for url ${url.host}: \n ${cookieStore[url.host] ?: listOf()}")
+//            return cookieStore[url.host] ?: listOf()
+//        }
 
         override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
-            cookieStore[url.host] = cookies
+            // Get the existing cookies for the host, if any
+            val existingCookies = cookieStore[url.host] ?: mutableListOf()
+
+            // Add new cookies, replacing any existing cookies with the same name
+            for (newCookie in cookies) {
+                val cookieIndex = existingCookies.indexOfFirst { it.name == newCookie.name }
+                if (cookieIndex != -1) {
+                    existingCookies[cookieIndex] = newCookie // Replace existing cookie
+                } else {
+                    existingCookies.add(newCookie) // Add new cookie
+                }
+            }
+
+            // Update the cookie store for this host
+            cookieStore[url.host] = existingCookies
         }
 
         override fun loadForRequest(url: HttpUrl): List<Cookie> {
-            println("loading cookies for url $url")
-            return cookieStore[url.host] ?: listOf()
+            // Return cookies for the current host, or an empty list if none exist
+            return cookieStore[url.host] ?: mutableListOf()
         }
     }
 
-    private val client = OkHttpClient.Builder().cookieJar(cookieJar).build()
+    private val client = OkHttpClient.Builder()
+        .cookieJar(cookieJar).build()
 
     fun sendApiRequestPOST(
         data: PeerReviewData? = null,
@@ -84,11 +109,21 @@ object ApiHelper {
         return "PeerReview/Students/$website/${role.ordinal}/$courseId/$token"
     }
 
-    fun getStudentToDoQuestions(token: UUID, courseId: Int, role: PeerReviewRole, website: Int = 8): String {
+    fun getStudentToDoQuestions(
+        token: UUID,
+        courseId: Int,
+        role: PeerReviewRole,
+        website: Int = 8
+    ): String {
         return "PeerReview/Question/Students/ToDoQuestions/$website/${role.ordinal}/$courseId/$token"
     }
 
-    fun getTeacherQuestionsToMark(token: UUID, courseId: Int, role: PeerReviewRole, website: Int = 8): String {
+    fun getTeacherQuestionsToMark(
+        token: UUID,
+        courseId: Int,
+        role: PeerReviewRole,
+        website: Int = 8
+    ): String {
         return "PeerReview/Question/Teacher/QuestionsToMark/$website/${role.ordinal}/$courseId/$token"
     }
 
@@ -108,11 +143,23 @@ object ApiHelper {
         return "Login"
     }
 
-    fun getLessonsSummary(token: String, courseId: String, role: PeerReviewRole, website: Int = 8): String {
-        return "PeerReview/Lessons/Summary/${role.name.lowercase().capitalize()}/$website/${role.ordinal + 1}/$courseId/$token"
+    fun getLessonsSummary(
+        token: String,
+        courseId: String,
+        role: PeerReviewRole,
+        website: Int = 8
+    ): String {
+        return "PeerReview/Lessons/Summary/${
+            role.name.lowercase().capitalize()
+        }/$website/${role.ordinal + 1}/$courseId/$token"
     }
 
-    fun getAnswerStudentsDone(token: UUID, lessonId: Int, role: PeerReviewRole, website: Int = 8): String {
+    fun getAnswerStudentsDone(
+        token: UUID,
+        lessonId: Int,
+        role: PeerReviewRole,
+        website: Int = 8
+    ): String {
         return "PeerReview/Answer/Lesson/$website/${role.ordinal}/$lessonId/$token"
     }
 

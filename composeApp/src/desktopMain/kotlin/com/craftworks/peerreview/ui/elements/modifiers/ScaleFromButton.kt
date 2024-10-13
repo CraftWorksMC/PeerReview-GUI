@@ -39,6 +39,7 @@ import kotlin.math.sqrt
  * @param easing Easing function used for animation. Default is EaseInOutSine.
  * @param size Size state of component being revealed. Default size is (0, 0).
  */
+
 fun Modifier.circularReveal(
     isVisible: Boolean,
     revealFrom: Offset = Offset(0.5f, 0.5f),

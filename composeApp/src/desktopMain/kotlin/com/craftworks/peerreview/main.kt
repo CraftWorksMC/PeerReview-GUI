@@ -83,7 +83,8 @@ fun main() = application {
                                 )
                             }
                         },
-                        modifier = Modifier.fillMaxSize().background(peerReviewColorScheme.surfaceContainer),
+                        modifier = Modifier.fillMaxSize()
+                            .background(peerReviewColorScheme.surfaceContainer),
                     ) {
                         SetupNavGraph(navController)
                     }
