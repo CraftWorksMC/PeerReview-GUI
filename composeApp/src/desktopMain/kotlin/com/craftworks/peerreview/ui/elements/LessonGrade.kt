@@ -1,9 +1,11 @@
 package com.craftworks.peerreview.ui.elements
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -12,15 +14,19 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.craftworks.peerreview.data.PeerReviewAnswerData
 import com.craftworks.peerreview.ui.theme.peerReviewColorScheme
 import org.jetbrains.compose.resources.Font
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import peerreview.composeapp.generated.resources.AI_Icon_Color
 import peerreview.composeapp.generated.resources.Outfit_Bold
 import peerreview.composeapp.generated.resources.Outfit_Light
 import peerreview.composeapp.generated.resources.Res
@@ -109,16 +115,33 @@ fun StudentQuestionGrade(data: PeerReviewAnswerData) {
                     fontSize = MaterialTheme.typography.titleMedium.fontSize
                 )
 
-                if (feedback.created_at == null) return
+                Box(
+                    modifier = Modifier.height(48.dp).fillMaxWidth()
+                ) {
+                    // Creation date of feedback
+                    if (feedback.created_at != null) {
+                        Text(
+                            text = stringResource(Res.string.grades_created) + formatDateTime(
+                                feedback.created_at
+                            ),
+                            color = peerReviewColorScheme.onSurfaceVariant.copy(0.75f),
+                            fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
+                            fontSize = MaterialTheme.typography.bodySmall.fontSize,
+                            modifier = Modifier.align(Alignment.BottomStart),
+                            textAlign = TextAlign.Left
+                        )
+                    }
 
-                Spacer(modifier = Modifier.height(4.dp))
-
-                Text(
-                    text = stringResource(Res.string.grades_created) + formatDateTime(feedback.created_at),
-                    color = peerReviewColorScheme.onSurfaceVariant.copy(0.75f),
-                    fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
-                    fontSize = MaterialTheme.typography.bodySmall.fontSize
-                )
+                    // AI Icon
+                    if (data.is_chat_gpt != 1) {
+                        Image(
+                            painter = painterResource(Res.drawable.AI_Icon_Color),
+                            contentScale = ContentScale.FillHeight,
+                            contentDescription = "AI",
+                            modifier = Modifier.fillMaxHeight().align(Alignment.CenterEnd)
+                        )
+                    }
+                }
             }
         }
     }

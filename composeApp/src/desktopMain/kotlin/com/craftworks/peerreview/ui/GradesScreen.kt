@@ -1,7 +1,7 @@
 package com.craftworks.peerreview.ui
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -44,8 +44,8 @@ fun StudentGradeScreen(lessonId: Int) {
 
     LazyColumn(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(bottom = 6.dp)
+            .fillMaxSize(),
+        contentPadding = PaddingValues(bottom = 6.dp)
     ) {
         item {
             ScreenHeader(stringResource(Res.string.header_grades))
