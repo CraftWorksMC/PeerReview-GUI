@@ -11,22 +11,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.craftworks.peerreview.api.ApiHelper
-import com.craftworks.peerreview.data.StudentLessonsTableData
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.craftworks.peerreview.login.LoginManager
 import com.craftworks.peerreview.ui.elements.ScreenHeader
 import com.craftworks.peerreview.ui.elements.StudentLesson
 import com.craftworks.peerreview.ui.theme.peerReviewColorScheme
-import kotlinx.serialization.json.Json
+import com.craftworks.peerreview.ui.viewmodels.LessonsViewmodel
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.stringResource
 import peerreview.composeapp.generated.resources.Outfit_Bold
@@ -40,25 +38,10 @@ import peerreview.composeapp.generated.resources.lessons_second_deadline
 import peerreview.composeapp.generated.resources.lessons_title
 
 @Composable
-fun StudentLessonsScreen() {
-    val studentLessons = remember { mutableStateListOf<StudentLessonsTableData>() }
-
-    LaunchedEffect(Unit) {
-        val lessonSummaryUrl = ApiHelper.getLessonsSummary(
-            LoginManager.guidToken, LoginManager.courseId, LoginManager.role, 8
-        )
-
-        println(lessonSummaryUrl)
-
-        val lessonSummaryData = ApiHelper.sendApiRequestGET(lessonSummaryUrl)
-
-        lessonSummaryData.body?.string()?.let {
-            val lessons = Json.decodeFromString<List<StudentLessonsTableData>>(it)
-            studentLessons.addAll(lessons)
-        }
-
-        println(studentLessons)
-    }
+fun StudentLessonsScreen(
+    viewModel: LessonsViewmodel = viewModel()
+) {
+    val studentLessons by viewModel.studentLessons.collectAsState()
 
     Column(
         modifier = Modifier
@@ -71,7 +54,6 @@ fun StudentLessonsScreen() {
         // ID / Title / Created At / First Deadline / Questions made / Second Deadline / Feedback made
         Row(
             modifier = Modifier.height(32.dp).padding(horizontal = 12.dp, vertical = 6.dp),
-            //horizontalArrangement = Arrangement.SpaceAround
         ) {
             Text(
                 text = "ID",

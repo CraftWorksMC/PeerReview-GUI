@@ -1,17 +1,8 @@
+@file:Suppress("PropertyName")
+
 package com.craftworks.peerreview.data
 
 import kotlinx.serialization.Serializable
-
-@Serializable
-data class PeerReviewQuestionData(
-    val id: Int,
-    val question_text: String,
-    val answer: String,
-    val created_at: String?,
-    val studentAnswers: List<PeerReviewAnswerData>,
-    val class_id: Int,
-    val answer_review_status: Int
-)
 
 @Serializable
 data class PeerReviewAnswerData(

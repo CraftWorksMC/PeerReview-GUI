@@ -35,7 +35,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
@@ -65,7 +64,7 @@ import peerreview.composeapp.generated.resources.Outfit_Bold
 import peerreview.composeapp.generated.resources.Res
 import peerreview.composeapp.generated.resources.header_login
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun LoginScreen() {
@@ -81,6 +80,7 @@ fun LoginScreen() {
 
     var buttonPosition by remember { mutableStateOf(Offset.Zero) }
     var buttonSize by remember { mutableStateOf(IntSize.Zero) }
+
 
     LaunchedEffect(Unit) {
         coroutineScope.launch {
@@ -218,10 +218,7 @@ fun LoginScreen() {
         // Login Button
         Button(
             onClick = {
-                credentials = Credentials(
-                    email, password, courseID, peerReviewRole
-                )
-                println("Logging in with credentials: $credentials")
+                credentials = Credentials(email, password, courseID, peerReviewRole)
                 coroutineScope.launch {
                     LoginManager().attemptLoginAsync(credentials)
                 }

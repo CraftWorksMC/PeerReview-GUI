@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
@@ -18,11 +19,16 @@ import androidx.navigation.compose.composable
 import com.craftworks.peerreview.ui.StudentGradeScreen
 import com.craftworks.peerreview.ui.StudentLessonsScreen
 import com.craftworks.peerreview.ui.theme.peerReviewColorScheme
+import com.craftworks.peerreview.ui.viewmodels.GradesViewmodel
+import com.craftworks.peerreview.ui.viewmodels.LessonsViewmodel
 
 @Composable
 fun SetupNavGraph(
     navController: NavHostController,
 ) {
+    val lessonsViewmodel = remember { LessonsViewmodel() }
+    val gradesViewmodel = remember { GradesViewmodel() }
+
     NavHost(
         navController = navController,
         startDestination = Screen.S_Grades.route,
@@ -37,14 +43,12 @@ fun SetupNavGraph(
     ) {
         println("Recomposing NavHost!")
 
-        //val currentLessonId by mutableStateOf(0)
-
         composable(route = Screen.S_Lessons.route) {
-            StudentLessonsScreen()
+            StudentLessonsScreen(lessonsViewmodel)
         }
 
         composable(route = Screen.S_Grades.route) {
-            StudentGradeScreen(9)
+            StudentGradeScreen(gradesViewmodel)
         }
     }
 }
