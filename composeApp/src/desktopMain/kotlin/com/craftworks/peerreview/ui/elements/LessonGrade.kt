@@ -1,22 +1,21 @@
 package com.craftworks.peerreview.ui.elements
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
@@ -37,87 +36,91 @@ import peerreview.composeapp.generated.resources.grades_missing_elements
 
 @Composable
 fun StudentQuestionGrade(data: PeerReviewAnswerData) {
-    Box(
+    Card(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(horizontal = 12.dp, vertical = 6.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(peerReviewColorScheme.surfaceContainer),
+            .padding(horizontal = 12.dp, vertical = 6.dp),
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors()
+            .copy(containerColor = peerReviewColorScheme.surfaceContainer),
     ) {
-        Column(
-            modifier = Modifier
-                .padding(12.dp)
-        ) {
-            Text(
-                text = data.question_text,
-                color = peerReviewColorScheme.onSurfaceVariant,
-                fontFamily = FontFamily(Font(Res.font.Outfit_Bold)),
-                fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                modifier = Modifier.fillMaxWidth().wrapContentHeight(),
-                textAlign = TextAlign.Center
-            )
+        Text(
+            text = data.question_text,
+            color = peerReviewColorScheme.onSurfaceVariant,
+            fontFamily = FontFamily(Font(Res.font.Outfit_Bold)),
+            fontSize = MaterialTheme.typography.titleMedium.fontSize,
+            modifier = Modifier.fillMaxWidth().wrapContentHeight()
+                .padding(start = 12.dp, top = 12.dp),
+            textAlign = TextAlign.Left
+        )
 
-            Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = data.answer_text,
+            color = peerReviewColorScheme.onSurfaceVariant,
+            fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
+            fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+            modifier = Modifier.padding(12.dp)
+        )
 
-            Text(
-                text = data.answer_text,
-                color = peerReviewColorScheme.onSurfaceVariant,
-                fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
-                fontSize = MaterialTheme.typography.bodyLarge.fontSize
-            )
+        //Spacer(modifier = Modifier.height(8.dp))
 
-            Spacer(modifier = Modifier.height(8.dp))
+        data.feedbacks.forEach { feedback ->
+            Card(
+                modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                shape = RoundedCornerShape(6.dp),
+                colors = CardDefaults.cardColors()
+                    .copy(containerColor = peerReviewColorScheme.surfaceContainerHigh)
+            ) {
+                Text(
+                    text = stringResource(Res.string.grades_feedback),
+                    color = peerReviewColorScheme.onSurfaceVariant,
+                    fontFamily = FontFamily(Font(Res.font.Outfit_Bold)),
+                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                    modifier = Modifier.fillMaxWidth().wrapContentHeight()
+                        .padding(start = 12.dp, top = 12.dp),
+                    textAlign = TextAlign.Left
+                )
 
-            Text(
-                text = stringResource(Res.string.grades_feedback),
-                color = peerReviewColorScheme.onSurfaceVariant,
-                fontFamily = FontFamily(Font(Res.font.Outfit_Bold)),
-                fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                modifier = Modifier.fillMaxWidth().wrapContentHeight(),
-                textAlign = TextAlign.Center
-            )
-
-            Spacer(modifier = Modifier.height(4.dp))
-
-            data.feedbacks.forEach { feedback ->
                 Text(
                     text = feedback.feedback_text,
                     color = peerReviewColorScheme.onSurfaceVariant,
                     fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
-                    fontSize = MaterialTheme.typography.bodyLarge.fontSize
+                    fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                    modifier = Modifier.padding(start = 12.dp)
                 )
-
-                Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
                     text = stringResource(Res.string.grades_missing_elements),
                     color = peerReviewColorScheme.onSurfaceVariant,
                     fontFamily = FontFamily(Font(Res.font.Outfit_Bold)),
                     fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                    modifier = Modifier.fillMaxWidth().wrapContentHeight(),
-                    textAlign = TextAlign.Center
+                    modifier = Modifier.fillMaxWidth().wrapContentHeight()
+                        .padding(start = 12.dp, top = 12.dp),
+                    textAlign = TextAlign.Left
                 )
 
                 Text(
                     text = feedback.missing_elements,
                     color = peerReviewColorScheme.onSurfaceVariant,
                     fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
-                    fontSize = MaterialTheme.typography.bodyLarge.fontSize
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = stringResource(Res.string.grades_grade) + feedback.grade,
-                    color = if (feedback.grade < 6) peerReviewColorScheme.error else peerReviewColorScheme.onSurfaceVariant,
-                    fontFamily = FontFamily(Font(Res.font.Outfit_Bold)),
-                    fontSize = MaterialTheme.typography.titleMedium.fontSize
+                    fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                    modifier = Modifier.padding(start = 12.dp, bottom = 12.dp)
                 )
 
                 Box(
-                    modifier = Modifier.height(48.dp).fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth().height(48.dp)
                 ) {
+                    // Grade
+                    Text(
+                        text = stringResource(Res.string.grades_grade) + feedback.grade,
+                        color = if (feedback.grade < 6) peerReviewColorScheme.error else peerReviewColorScheme.onSurfaceVariant,
+                        fontFamily = FontFamily(Font(Res.font.Outfit_Bold)),
+                        fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                        modifier = Modifier.align(Alignment.TopStart)
+                            .padding(start = 12.dp)
+                    )
+
                     // Creation date of feedback
                     if (feedback.created_at != null) {
                         Text(
@@ -127,7 +130,8 @@ fun StudentQuestionGrade(data: PeerReviewAnswerData) {
                             color = peerReviewColorScheme.onSurfaceVariant.copy(0.75f),
                             fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
                             fontSize = MaterialTheme.typography.bodySmall.fontSize,
-                            modifier = Modifier.align(Alignment.BottomStart),
+                            modifier = Modifier.align(Alignment.BottomStart)
+                                .padding(start = 12.dp, bottom = 6.dp),
                             textAlign = TextAlign.Left
                         )
                     }
@@ -138,11 +142,15 @@ fun StudentQuestionGrade(data: PeerReviewAnswerData) {
                             painter = painterResource(Res.drawable.AI_Icon_Color),
                             contentScale = ContentScale.FillHeight,
                             contentDescription = "AI",
-                            modifier = Modifier.fillMaxHeight().align(Alignment.CenterEnd)
+                            modifier = Modifier
+                                .size(48.dp)
+                                .align(Alignment.CenterEnd)
                         )
                     }
                 }
             }
         }
+
+        Spacer(modifier = Modifier.height(6.dp))
     }
 }
