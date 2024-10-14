@@ -1,21 +1,22 @@
-
 # Peer Review - GUI
 
 Client per PeerReview scritto in Kotlin e Jetpack Compose Multiplatform.
 
-⚠️ Questo programma non è ancora a un punto di essere utlizzabile.
-
+⚠️ Questo programma non ha ancora tutte le funzioni necessarie implementate.
 
 ## Features
 
 - Design Material 3 di Google.
-- Schermata di login.
-- Fine, il resto è ancora WIP
-
+- [x] Login
+- [x] Lezioni
+- [ ] Rispondi
+- [ ] Dai Feedback
+- [x] Voti
 
 ## Come compilare
 
 Prerequisiti:
+
 - Android Studio
 - Java 17
 
@@ -31,7 +32,7 @@ Inserisci l'URL di github:
   https://github.com/CraftWorksMC/PeerReview-GUI
 ```
 
-In alto a destra, cliccare su modifica configurazioni, e creare 2 configurazioni Gradle: 
+In alto a destra, cliccare su modifica configurazioni, e creare 2 configurazioni Gradle:
 
 - Comando Gradle per avviare il programma in debug
 
