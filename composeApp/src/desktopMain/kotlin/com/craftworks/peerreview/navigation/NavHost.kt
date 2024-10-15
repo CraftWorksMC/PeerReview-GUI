@@ -44,7 +44,7 @@ fun SetupNavGraph(
         println("Recomposing NavHost!")
 
         composable(route = Screen.S_Lessons.route) {
-            StudentLessonsScreen(lessonsViewmodel)
+            StudentLessonsScreen(lessonsViewmodel, navController)
         }
 
         composable(route = Screen.S_Grades.route) {

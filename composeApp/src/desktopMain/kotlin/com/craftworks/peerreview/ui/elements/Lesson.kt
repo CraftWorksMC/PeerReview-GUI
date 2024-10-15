@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.craftworks.peerreview.data.StudentLessonsTableData
 import com.craftworks.peerreview.ui.theme.peerReviewColorScheme
 import org.jetbrains.compose.resources.Font
@@ -29,7 +30,8 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun StudentLesson(
-    data: StudentLessonsTableData
+    data: StudentLessonsTableData,
+    navController: NavController
 ) {
     // ID / Title / Created At / First Deadline / Questions made / Second Deadline / Feedback made
     Row(

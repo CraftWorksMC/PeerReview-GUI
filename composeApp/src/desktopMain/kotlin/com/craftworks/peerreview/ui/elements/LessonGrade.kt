@@ -63,8 +63,6 @@ fun StudentQuestionGrade(data: PeerReviewAnswerData) {
             modifier = Modifier.padding(12.dp)
         )
 
-        //Spacer(modifier = Modifier.height(8.dp))
-
         data.feedbacks.forEach { feedback ->
             Card(
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),

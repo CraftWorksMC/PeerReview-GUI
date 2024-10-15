@@ -1,4 +1,4 @@
-package com.craftworks.music.ui.viewmodels
+package com.craftworks.peerreview.ui.viewmodels
 
 // Interface for ViewModels that can reload
 interface ReloadableViewModel {

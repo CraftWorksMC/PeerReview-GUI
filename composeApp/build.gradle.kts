@@ -23,7 +23,10 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
 
-            implementation("com.github.skydoves:landscapist-coil3:2.3.8")
+            implementation("io.coil-kt.coil3:coil-compose:3.0.0-rc01")
+            implementation("io.coil-kt.coil3:coil-svg:3.0.0-rc01")
+
+            implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
             implementation(compose.materialIconsExtended)
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
