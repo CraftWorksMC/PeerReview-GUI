@@ -19,18 +19,7 @@ object ApiHelper {
 
     // Imposta il client globale con cookie
     private val cookieJar = object : CookieJar {
-        //private val cookieStore = mutableMapOf<String, List<Cookie>>()
         private val cookieStore: MutableMap<String, MutableList<Cookie>> = mutableMapOf()
-
-//        override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
-//            println("saving cookies for url ${url.host}: \n $cookies")
-//            cookieStore[url.host] = cookies
-//        }
-//
-//        override fun loadForRequest(url: HttpUrl): List<Cookie> {
-//            println("loading cookies for url ${url.host}: \n ${cookieStore[url.host] ?: listOf()}")
-//            return cookieStore[url.host] ?: listOf()
-//        }
 
         override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
             // Get the existing cookies for the host, if any
@@ -40,9 +29,9 @@ object ApiHelper {
             for (newCookie in cookies) {
                 val cookieIndex = existingCookies.indexOfFirst { it.name == newCookie.name }
                 if (cookieIndex != -1) {
-                    existingCookies[cookieIndex] = newCookie // Replace existing cookie
+                    existingCookies[cookieIndex] = newCookie
                 } else {
-                    existingCookies.add(newCookie) // Add new cookie
+                    existingCookies.add(newCookie)
                 }
             }
 
@@ -161,6 +150,10 @@ object ApiHelper {
         website: Int = 8
     ): String {
         return "PeerReview/Answer/Lesson/$website/${role.ordinal + 1}/$lessonId/$token"
+    }
+
+    fun postAnswer(): String {
+        return "PeerReview/Answer"
     }
 
     fun postEnroll(): String {

@@ -15,14 +15,14 @@ data class PeerReviewRoleJsonData(
     val role: PeerReviewRole,
     val course_class_id: Int,
     val website: Int
-): PeerReviewData()
+) : PeerReviewData()
 
 
 @Serializable
-data class CheckRoleResult (
+data class CheckRoleResult(
     var peerReviewRoleResponse: PeerReviewRoleResponseJsonData? = null,
     var isCredentialsFound: Boolean
-): PeerReviewData()
+) : PeerReviewData()
 
 @Serializable
 data class PeerReviewRoleResponseJsonData(
@@ -31,4 +31,4 @@ data class PeerReviewRoleResponseJsonData(
     val software_version: String,
     val class_name: String,
     val role: String
-): PeerReviewData()
+) : PeerReviewData()

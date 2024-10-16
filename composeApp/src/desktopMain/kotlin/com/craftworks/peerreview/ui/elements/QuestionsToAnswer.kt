@@ -23,8 +23,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.craftworks.peerreview.data.PeerReviewQuestionData
 import com.craftworks.peerreview.ui.theme.peerReviewColorScheme
+import com.craftworks.peerreview.ui.viewmodels.AnswersViewModel
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.stringResource
 import peerreview.composeapp.generated.resources.Outfit_Bold
@@ -34,8 +36,12 @@ import peerreview.composeapp.generated.resources.answer_isChatGpt
 
 @Composable
 fun StudentQuestionsToDo(
-    data: PeerReviewQuestionData
+    data: PeerReviewQuestionData,
+    viewModel: AnswersViewModel = viewModel()
 ) {
+    var answer by remember { mutableStateOf("") }
+    var isChatGpt by remember { mutableStateOf(false) }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -54,7 +60,6 @@ fun StudentQuestionsToDo(
                 .padding(start = 12.dp, top = 12.dp),
             textAlign = TextAlign.Left
         )
-        var answer by remember { mutableStateOf("") }
 
         OutlinedTextField(
             value = answer,
@@ -69,7 +74,6 @@ fun StudentQuestionsToDo(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(end = 12.dp, bottom = 12.dp)
         ) {
-            var isChatGpt by remember { mutableStateOf(false) }
 
             Checkbox(
                 checked = isChatGpt,
@@ -87,7 +91,14 @@ fun StudentQuestionsToDo(
             Spacer(Modifier.weight(1f))
 
             Button(
-                onClick = { println("inviato") }
+                onClick = {
+                    viewModel.sendAnswer(
+                        data.id,
+                        answer,
+                        isChatGpt
+                    )
+                    println("Sent the answer for question id ${data.id}")
+                }
             ) {
                 Text(
                     text = "Invia",

@@ -1,3 +1,5 @@
+@file:Suppress("PropertyName")
+
 package com.craftworks.peerreview.data
 
 import kotlinx.serialization.Serializable
@@ -25,3 +27,14 @@ data class PeerReviewQuestionData(
     val answer: String?,
     val answer_review_status: Int
 )
+
+@Serializable
+data class PeerReviewAnswererJsonData(
+    val question_id: Int,
+    val question_text: String,
+    val role: PeerReviewRole,
+    val course_class_id: Int,
+    val website: Int,
+    val token: String,
+    val is_chat_gpt: Int
+) : PeerReviewData()

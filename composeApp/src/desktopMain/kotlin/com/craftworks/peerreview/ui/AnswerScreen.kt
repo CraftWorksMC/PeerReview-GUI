@@ -57,7 +57,7 @@ fun StudentAnswerScreen(
 
             items(studentQuestions) { lessonQuestions ->
                 for (question in lessonQuestions.lesson_questions)
-                    StudentQuestionsToDo(question)
+                    StudentQuestionsToDo(question, viewModel)
             }
         }
 
