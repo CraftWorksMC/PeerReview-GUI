@@ -16,9 +16,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.craftworks.peerreview.ui.StudentAnswerScreen
 import com.craftworks.peerreview.ui.StudentGradeScreen
 import com.craftworks.peerreview.ui.StudentLessonsScreen
 import com.craftworks.peerreview.ui.theme.peerReviewColorScheme
+import com.craftworks.peerreview.ui.viewmodels.AnswersViewModel
 import com.craftworks.peerreview.ui.viewmodels.GradesViewmodel
 import com.craftworks.peerreview.ui.viewmodels.LessonsViewmodel
 
@@ -27,6 +29,7 @@ fun SetupNavGraph(
     navController: NavHostController,
 ) {
     val lessonsViewmodel = remember { LessonsViewmodel() }
+    val questionsViewmodel = remember { AnswersViewModel() }
     val gradesViewmodel = remember { GradesViewmodel() }
 
     NavHost(
@@ -45,6 +48,10 @@ fun SetupNavGraph(
 
         composable(route = Screen.S_Lessons.route) {
             StudentLessonsScreen(lessonsViewmodel, navController)
+        }
+
+        composable(route = Screen.S_Answer.route) {
+            StudentAnswerScreen(questionsViewmodel)
         }
 
         composable(route = Screen.S_Grades.route) {

@@ -57,7 +57,7 @@ fun DrawerContent(onItemClick: (String) -> Unit) {
         NavigationDrawerItem(
             label = { Text(stringResource(Res.string.nav_answer)) },
             selected = false,
-            onClick = { onItemClick(Screen.S_Lessons.route) },
+            onClick = { onItemClick(Screen.S_Answer.route) },
             colors = navigationDrawerColors,
             modifier = Modifier.padding(vertical = 6.dp).height(48.dp),
             shape = RoundedCornerShape(12.dp),

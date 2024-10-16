@@ -17,6 +17,7 @@
     <!-- Screen Titles -->
     <string name="header_login">Accedi</string>
     <string name="header_lessons">Lezioni della classe </string>
+    <string name="header_answer">Rispondi</string>
     <string name="header_grades">Voti</string>
 
 
@@ -35,4 +36,8 @@
     <string name="grades_grade">Voto: </string>
     <string name="grades_created">Creato il: </string>
     <string name="grades_empty">Per ora, solo silenzio.</string>
+
+    <!-- Student Answer Screen -->
+    <string name="answer_isChatGpt">Hai usato ChatGPT?</string>
+    <string name="answer_send">Invia</string>
 </resources>

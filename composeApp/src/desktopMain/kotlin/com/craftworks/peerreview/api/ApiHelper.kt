@@ -110,12 +110,12 @@ object ApiHelper {
     }
 
     fun getStudentToDoQuestions(
-        token: UUID,
-        courseId: Int,
+        token: String,
+        courseId: String,
         role: PeerReviewRole,
         website: Int = 8
     ): String {
-        return "PeerReview/Question/Students/ToDoQuestions/$website/${role.ordinal}/$courseId/$token"
+        return "PeerReview/Question/Students/ToDoQuestions/$website/${role.ordinal + 1}/$courseId/$token"
     }
 
     fun getTeacherQuestionsToMark(

@@ -135,7 +135,7 @@ fun StudentQuestionGrade(data: PeerReviewAnswerData) {
                     }
 
                     // AI Icon
-                    if (data.is_chat_gpt != 1) {
+                    if (data.is_chat_gpt == 1) {
                         Image(
                             painter = painterResource(Res.drawable.AI_Icon_Color),
                             contentScale = ContentScale.FillHeight,
