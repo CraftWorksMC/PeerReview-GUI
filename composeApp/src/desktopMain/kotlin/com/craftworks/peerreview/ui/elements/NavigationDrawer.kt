@@ -23,7 +23,6 @@ import peerreview.composeapp.generated.resources.BaobabLogoNew
 import peerreview.composeapp.generated.resources.Res
 import peerreview.composeapp.generated.resources.nav_answer
 import peerreview.composeapp.generated.resources.nav_feedback
-import peerreview.composeapp.generated.resources.nav_grades
 import peerreview.composeapp.generated.resources.nav_lessons
 
 @Composable
@@ -70,13 +69,13 @@ fun DrawerContent(onItemClick: (String) -> Unit) {
             modifier = Modifier.padding(vertical = 6.dp).height(48.dp),
             shape = RoundedCornerShape(12.dp),
         )
-        NavigationDrawerItem(
-            label = { Text(stringResource(Res.string.nav_grades)) },
-            selected = false,
-            onClick = { onItemClick(Screen.S_Grades.route) },
-            colors = navigationDrawerColors,
-            modifier = Modifier.padding(vertical = 6.dp).height(48.dp),
-            shape = RoundedCornerShape(12.dp),
-        )
+//        NavigationDrawerItem(
+//            label = { Text(stringResource(Res.string.nav_grades)) },
+//            selected = false,
+//            onClick = { onItemClick(Screen.S_Grades.route) },
+//            colors = navigationDrawerColors,
+//            modifier = Modifier.padding(vertical = 6.dp).height(48.dp),
+//            shape = RoundedCornerShape(12.dp),
+//        )
     }
 }

@@ -21,34 +21,42 @@ class GradesViewmodel() : ViewModel(), ReloadableViewModel {
     val studentGrades: StateFlow<List<PeerReviewAnswerData>> = _studentGrades.asStateFlow()
 
     init {
-        getStudentCredentials()
+        getStudentGrades()
     }
 
     override fun reloadData() {
-        getStudentCredentials()
+        getStudentGrades()
     }
 
-    private fun getStudentCredentials() {
+    private fun getStudentGrades() {
         viewModelScope.launch {
             coroutineScope {
+                _studentGrades.value = mutableListOf()
+
                 val studentGradesUrl = ApiHelper.getAnswerStudentsDone(
                     LoginManager.guidToken, currentLessonId.value, LoginManager.role, 8
                 )
 
-                //val lessonSummaryData = ApiHelper.sendApiRequestGET(lessonSummaryUrl)
                 val studentGradesDataDeferred =
                     async { ApiHelper.sendApiRequestGET(studentGradesUrl) }
 
                 val studentGradesData = studentGradesDataDeferred.await()
 
-                studentGradesData.body?.string()?.let {
-                    println(it)
-                    val grades = Json.decodeFromString<List<PeerReviewAnswerData>>(it)
-                    _studentGrades.value = grades
-                }
+                if (studentGradesData.isSuccessful) {
+                    studentGradesData.body?.string()?.let {
+                        println(it)
+                        val grades = Json.decodeFromString<List<PeerReviewAnswerData>>(it)
+                        _studentGrades.value = grades
+                    }
 
-                println("Student Grades JSON: ${_studentGrades.value}")
+                    println("Student Grades JSON: ${_studentGrades.value}")
+                }
             }
         }
+    }
+
+    fun updateLessonId(newId: Int) {
+        _currentLessonId.value = newId
+        getStudentGrades()
     }
 }

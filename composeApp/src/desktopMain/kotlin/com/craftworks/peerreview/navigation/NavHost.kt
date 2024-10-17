@@ -14,8 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.craftworks.peerreview.ui.StudentAnswerScreen
 import com.craftworks.peerreview.ui.StudentGradeScreen
 import com.craftworks.peerreview.ui.StudentLessonsScreen
@@ -34,7 +36,7 @@ fun SetupNavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = Screen.S_Grades.route,
+        startDestination = Screen.S_Lessons.route,
         enterTransition = {
             scaleIn(tween(300), 0.95f) + fadeIn(tween(400))
         },
@@ -54,7 +56,13 @@ fun SetupNavGraph(
             StudentAnswerScreen(questionsViewmodel)
         }
 
-        composable(route = Screen.S_Grades.route) {
+        composable(
+            route = Screen.S_Grades.getRoute(),
+            arguments = listOf(navArgument("lessonId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val lessonId = remember { backStackEntry.arguments?.getInt("lessonId") ?: 0 }
+            if (gradesViewmodel.currentLessonId.value != lessonId)
+                gradesViewmodel.updateLessonId(lessonId)
             StudentGradeScreen(gradesViewmodel)
         }
     }

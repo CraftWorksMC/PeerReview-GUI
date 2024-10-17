@@ -21,12 +21,14 @@ import com.craftworks.peerreview.navigation.SetupNavGraph
 import com.craftworks.peerreview.ui.LoginScreen
 import com.craftworks.peerreview.ui.elements.DrawerContent
 import com.craftworks.peerreview.ui.theme.peerReviewColorScheme
+import org.jetbrains.compose.resources.ExperimentalResourceApi
 import java.awt.Dimension
 
 
 // Application entry point. Create window with minimum dimentions of 800x600.
 // Then we setup the navgraph and navigate to the login screen as first destination.
 
+@OptIn(ExperimentalResourceApi::class)
 fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,

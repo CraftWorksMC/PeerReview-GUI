@@ -26,6 +26,9 @@ kotlin {
             implementation("io.coil-kt.coil3:coil-compose:3.0.0-rc01")
             implementation("io.coil-kt.coil3:coil-svg:3.0.0-rc01")
 
+            implementation("io.github.alexzhirkevich:compottie:2.0.0-rc01")
+            implementation("io.github.alexzhirkevich:compottie-dot:2.0.0-rc01")
+
             implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
             implementation(compose.materialIconsExtended)

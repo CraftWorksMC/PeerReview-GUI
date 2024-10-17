@@ -40,4 +40,5 @@
     <!-- Student Answer Screen -->
     <string name="answer_isChatGpt">Hai usato ChatGPT?</string>
     <string name="answer_send">Invia</string>
+    <string name="answer_empty">Nessuna domanda all'orizzonte... per ora.</string>
 </resources>

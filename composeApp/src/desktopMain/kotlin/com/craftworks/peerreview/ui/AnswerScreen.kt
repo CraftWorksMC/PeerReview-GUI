@@ -23,9 +23,9 @@ import com.craftworks.peerreview.ui.viewmodels.AnswersViewModel
 import fadeGradient
 import org.jetbrains.compose.resources.stringResource
 import peerreview.composeapp.generated.resources.Res
-import peerreview.composeapp.generated.resources.empty_grades_dark
+import peerreview.composeapp.generated.resources.answer_empty
+import peerreview.composeapp.generated.resources.empty_questions_dark
 import peerreview.composeapp.generated.resources.header_answer
-import peerreview.composeapp.generated.resources.lessons_empty
 
 @Composable
 fun StudentAnswerScreen(
@@ -49,8 +49,8 @@ fun StudentAnswerScreen(
             if (studentQuestions.isEmpty()) {
                 item {
                     EmptyViewItem(
-                        Res.drawable.empty_grades_dark,
-                        Res.string.lessons_empty
+                        Res.drawable.empty_questions_dark,
+                        Res.string.answer_empty
                     )
                 }
             }

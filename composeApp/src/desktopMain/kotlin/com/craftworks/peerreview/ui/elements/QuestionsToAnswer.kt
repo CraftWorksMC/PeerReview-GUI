@@ -1,5 +1,7 @@
 package com.craftworks.peerreview.ui.elements
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,6 +35,7 @@ import peerreview.composeapp.generated.resources.Outfit_Bold
 import peerreview.composeapp.generated.resources.Outfit_Light
 import peerreview.composeapp.generated.resources.Res
 import peerreview.composeapp.generated.resources.answer_isChatGpt
+import peerreview.composeapp.generated.resources.answer_send
 
 @Composable
 fun StudentQuestionsToDo(
@@ -42,73 +45,84 @@ fun StudentQuestionsToDo(
     var answer by remember { mutableStateOf("") }
     var isChatGpt by remember { mutableStateOf(false) }
 
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(horizontal = 12.dp, vertical = 6.dp),
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors()
-            .copy(containerColor = peerReviewColorScheme.surfaceContainer),
+    var hasSentAnswer by remember { mutableStateOf(false) }
+
+    AnimatedVisibility(
+        visible = !hasSentAnswer, exit = shrinkVertically()
     ) {
-        Text(
-            text = data.question_text,
-            color = peerReviewColorScheme.onSurfaceVariant,
-            fontFamily = FontFamily(Font(Res.font.Outfit_Bold)),
-            fontSize = MaterialTheme.typography.titleMedium.fontSize,
-            modifier = Modifier.fillMaxWidth().wrapContentHeight()
-                .padding(start = 12.dp, top = 12.dp),
-            textAlign = TextAlign.Left
-        )
-
-        OutlinedTextField(
-            value = answer,
-            onValueChange = { answer = it },
-            label = { Text("Risposta") },
-            minLines = 3,
-            maxLines = 5,
-            modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(12.dp)
-        )
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(end = 12.dp, bottom = 12.dp)
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(horizontal = 12.dp, vertical = 6.dp),
+            shape = RoundedCornerShape(12.dp),
+            colors = CardDefaults.cardColors()
+                .copy(containerColor = peerReviewColorScheme.surfaceContainer),
         ) {
-
-            Checkbox(
-                checked = isChatGpt,
-                onCheckedChange = { isChatGpt = it }
-            )
             Text(
-                text = stringResource(Res.string.answer_isChatGpt),
+                text = data.question_text,
                 color = peerReviewColorScheme.onSurfaceVariant,
-                fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
-                fontSize = MaterialTheme.typography.bodyLarge.fontSize,
-                modifier = Modifier.wrapContentHeight().padding(start = 6.dp),
+                fontFamily = FontFamily(Font(Res.font.Outfit_Bold)),
+                fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                modifier = Modifier.fillMaxWidth().wrapContentHeight()
+                    .padding(start = 12.dp, top = 12.dp),
                 textAlign = TextAlign.Left
             )
 
-            Spacer(Modifier.weight(1f))
+            OutlinedTextField(
+                value = answer,
+                onValueChange = { answer = it },
+                label = { Text("Risposta") },
+                minLines = 3,
+                maxLines = 5,
+                modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(12.dp),
+                enabled = !hasSentAnswer
+            )
 
-            Button(
-                onClick = {
-                    viewModel.sendAnswer(
-                        data.id,
-                        answer,
-                        isChatGpt
-                    )
-                    println("Sent the answer for question id ${data.id}")
-                }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(end = 12.dp, bottom = 12.dp)
             ) {
+
+                Checkbox(
+                    checked = isChatGpt,
+                    onCheckedChange = { isChatGpt = it }
+                )
                 Text(
-                    text = "Invia",
-                    color = peerReviewColorScheme.onPrimary,
+                    text = stringResource(Res.string.answer_isChatGpt),
+                    color = peerReviewColorScheme.onSurfaceVariant,
                     fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
                     fontSize = MaterialTheme.typography.bodyLarge.fontSize,
                     modifier = Modifier.wrapContentHeight().padding(start = 6.dp),
                     textAlign = TextAlign.Left
                 )
+
+                Spacer(Modifier.weight(1f))
+
+                Button(
+                    onClick = {
+                        hasSentAnswer = true
+                        viewModel.sendAnswer(
+                            data.id,
+                            answer,
+                            isChatGpt
+                        )
+                        viewModel.reloadData()
+                        println("Sent the answer for question id ${data.id}")
+                    }
+                ) {
+                    Text(
+                        text = stringResource(Res.string.answer_send),
+                        color = peerReviewColorScheme.onPrimary,
+                        fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
+                        fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                        modifier = Modifier.wrapContentHeight().padding(start = 6.dp),
+                        textAlign = TextAlign.Left
+                    )
+                }
             }
         }
     }
+
+
 }

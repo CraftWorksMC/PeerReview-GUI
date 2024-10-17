@@ -1,6 +1,7 @@
 package com.craftworks.peerreview.ui.elements
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -21,6 +22,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.craftworks.peerreview.data.StudentLessonsTableData
+import com.craftworks.peerreview.navigation.Screen
 import com.craftworks.peerreview.ui.theme.peerReviewColorScheme
 import org.jetbrains.compose.resources.Font
 import peerreview.composeapp.generated.resources.Outfit_Light
@@ -41,7 +43,12 @@ fun StudentLesson(
             .wrapContentHeight()
             .heightIn(min = 32.dp, max = 64.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(peerReviewColorScheme.surfaceContainer),
+            .background(peerReviewColorScheme.surfaceContainer)
+            .clickable {
+                navController.navigate(Screen.S_Grades.createRoute(data.id)) {
+                    launchSingleTop = true
+                }
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
