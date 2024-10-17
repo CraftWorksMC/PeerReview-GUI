@@ -9,7 +9,7 @@ Client per PeerReview scritto in Kotlin e Jetpack Compose Multiplatform.
 - Design Material 3 di Google.
 - [x] Login
 - [x] Lezioni
-- [ ] Rispondi
+- [x] Rispondi
 - [ ] Dai Feedback
 - [x] Voti
 
