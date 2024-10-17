@@ -25,6 +25,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import com.craftworks.peerreview.navigation.Screen
 import com.craftworks.peerreview.ui.elements.EmptyViewItem
 import com.craftworks.peerreview.ui.elements.ScreenHeader
 import com.craftworks.peerreview.ui.elements.StudentQuestionGrade
@@ -39,7 +41,8 @@ import peerreview.composeapp.generated.resources.lessons_empty
 
 @Composable
 fun StudentGradeScreen(
-    viewModel: GradesViewmodel = viewModel()
+    viewModel: GradesViewmodel = viewModel(),
+    navController: NavController
 ) {
     val studentGrades by viewModel.studentGrades.collectAsState()
 
@@ -48,7 +51,11 @@ fun StudentGradeScreen(
     Column {
         Row {
             FilledIconButton(
-                onClick = {},
+                onClick = {
+                    navController.navigate(Screen.S_Lessons.route) {
+                        launchSingleTop = true
+                    }
+                },
                 modifier = Modifier
                     .size(64.dp)
                     .padding(12.dp, 12.dp, 0.dp, 6.dp),

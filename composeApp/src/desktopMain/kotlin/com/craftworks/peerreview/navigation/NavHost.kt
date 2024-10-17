@@ -59,11 +59,11 @@ fun SetupNavGraph(
         composable(
             route = Screen.S_Grades.getRoute(),
             arguments = listOf(navArgument("lessonId") { type = NavType.IntType })
-        ) { backStackEntry ->
-            val lessonId = remember { backStackEntry.arguments?.getInt("lessonId") ?: 0 }
+        ) {
+            val lessonId = remember { it.arguments?.getInt("lessonId") ?: 0 }
             if (gradesViewmodel.currentLessonId.value != lessonId)
                 gradesViewmodel.updateLessonId(lessonId)
-            StudentGradeScreen(gradesViewmodel)
+            StudentGradeScreen(gradesViewmodel, navController)
         }
     }
 }
