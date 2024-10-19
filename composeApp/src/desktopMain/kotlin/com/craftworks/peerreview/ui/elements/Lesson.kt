@@ -118,10 +118,18 @@ fun StudentLesson(
             color = if (data.count_feedback_made == 0) peerReviewColorScheme.error else peerReviewColorScheme.onSurfaceVariant,
             fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
             fontSize = MaterialTheme.typography.titleMedium.fontSize,
-            modifier = Modifier.weight(1f).wrapContentHeight().padding(horizontal = 6.dp),
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .weight(1f)
+                .wrapContentHeight()
+                .padding(horizontal = 6.dp)
+                .clickable {
+                    navController.navigate(Screen.S_Feedback.createRoute(data.id)) {
+                        launchSingleTop = true
+                    }
+                }
         )
     }
 }

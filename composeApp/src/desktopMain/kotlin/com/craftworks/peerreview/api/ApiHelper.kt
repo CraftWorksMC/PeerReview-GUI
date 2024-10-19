@@ -13,7 +13,6 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import okhttp3.ResponseBody.Companion.toResponseBody
-import java.util.UUID
 
 object ApiHelper {
 
@@ -90,12 +89,12 @@ object ApiHelper {
         }
     }
 
-    fun getClass(guid: UUID, classId: Int, userType: PeerReviewRole, website: Int = 8): String {
-        return "PeerReview/Class/$website/${userType.ordinal}/$classId/$guid"
+    fun getClass(guid: String, classId: Int, userType: PeerReviewRole, website: Int = 8): String {
+        return "PeerReview/Class/$website/${userType.ordinal + 1}/$classId/$guid"
     }
 
-    fun getStudents(token: UUID, courseId: Int, role: PeerReviewRole, website: Int = 8): String {
-        return "PeerReview/Students/$website/${role.ordinal}/$courseId/$token"
+    fun getStudents(token: String, courseId: Int, role: PeerReviewRole, website: Int = 8): String {
+        return "PeerReview/Students/$website/${role.ordinal + 1}/$courseId/$token"
     }
 
     fun getStudentToDoQuestions(
@@ -108,7 +107,7 @@ object ApiHelper {
     }
 
     fun getTeacherQuestionsToMark(
-        token: UUID,
+        token: String,
         courseId: Int,
         role: PeerReviewRole,
         website: Int = 8
@@ -116,8 +115,8 @@ object ApiHelper {
         return "PeerReview/Question/Teacher/QuestionsToMark/$website/${role.ordinal}/$courseId/$token"
     }
 
-    fun getFeedback(token: UUID, lessonId: Int, role: PeerReviewRole, website: Int = 8): String {
-        return "PeerReview/Feedback/$website/${role.ordinal}/$lessonId/$token"
+    fun getFeedback(token: String, lessonId: Int, role: PeerReviewRole, website: Int = 8): String {
+        return "PeerReview/Feedback/$website/${role.ordinal + 1}/$lessonId/$token"
     }
 
     fun postFeedback(): String {

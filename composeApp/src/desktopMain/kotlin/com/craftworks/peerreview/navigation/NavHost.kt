@@ -19,10 +19,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.craftworks.peerreview.ui.StudentAnswerScreen
+import com.craftworks.peerreview.ui.StudentGiveFeedbackScreen
 import com.craftworks.peerreview.ui.StudentGradeScreen
 import com.craftworks.peerreview.ui.StudentLessonsScreen
 import com.craftworks.peerreview.ui.theme.peerReviewColorScheme
 import com.craftworks.peerreview.ui.viewmodels.AnswersViewModel
+import com.craftworks.peerreview.ui.viewmodels.FeedbackViewModel
 import com.craftworks.peerreview.ui.viewmodels.GradesViewmodel
 import com.craftworks.peerreview.ui.viewmodels.LessonsViewmodel
 
@@ -32,6 +34,7 @@ fun SetupNavGraph(
 ) {
     val lessonsViewmodel = remember { LessonsViewmodel() }
     val questionsViewmodel = remember { AnswersViewModel() }
+    val feedbackViewmodel = remember { FeedbackViewModel() }
     val gradesViewmodel = remember { GradesViewmodel() }
 
     NavHost(
@@ -64,6 +67,16 @@ fun SetupNavGraph(
             if (gradesViewmodel.currentLessonId.value != lessonId)
                 gradesViewmodel.updateLessonId(lessonId)
             StudentGradeScreen(gradesViewmodel, navController)
+        }
+
+        composable(
+            route = Screen.S_Grades.getRoute(),
+            arguments = listOf(navArgument("lessonId") { type = NavType.IntType })
+        ) {
+            val lessonId = remember { it.arguments?.getInt("lessonId") ?: 0 }
+            if (feedbackViewmodel.currentLessonId.value != lessonId)
+                feedbackViewmodel.updateLessonId(lessonId)
+            StudentGiveFeedbackScreen(feedbackViewmodel)
         }
     }
 }

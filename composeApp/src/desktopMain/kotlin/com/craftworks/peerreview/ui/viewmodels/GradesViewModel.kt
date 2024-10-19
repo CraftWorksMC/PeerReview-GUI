@@ -20,10 +20,6 @@ class GradesViewmodel() : ViewModel(), ReloadableViewModel {
     private val _studentGrades = MutableStateFlow<List<PeerReviewAnswerData>>(mutableListOf())
     val studentGrades: StateFlow<List<PeerReviewAnswerData>> = _studentGrades.asStateFlow()
 
-    init {
-        getStudentGrades()
-    }
-
     override fun reloadData() {
         getStudentGrades()
     }
