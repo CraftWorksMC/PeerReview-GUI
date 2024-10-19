@@ -10,38 +10,18 @@ Client per PeerReview scritto in Kotlin e Jetpack Compose Multiplatform.
 - [x] Login
 - [x] Lezioni
 - [x] Rispondi
-- [ ] Dai Feedback
+- [x] Dai Feedback
 - [x] Voti
 
 ## Come compilare
 
 Prerequisiti:
 
-- Android Studio
-- Java 17
-
-Clona la repository:
+- Java 17+
 
 ```bash
-  File > New > Project from Version Control
-```
-
-Inserisci l'URL di github:
-
-```bash
-  https://github.com/CraftWorksMC/PeerReview-GUI
-```
-
-In alto a destra, cliccare su modifica configurazioni, e creare 2 configurazioni Gradle:
-
-- Comando Gradle per avviare il programma in debug
-
-```bash
-  composeApp:run
-```
-
-- Comando Gradle per creare un eseguibile
-
-```bash
-  composeApp:createDistributable
+  git clone https://github.com/CraftWorksMC/PeerReview-GUI.git
+  cd PeerReview-GUI
+  ./gradlew composeApp:run # Questo compila e avvia il programma.
+  ./gradlew composeApp:createDistributable # Questo compila il programma in un eseguibile.
 ```
