@@ -35,7 +35,7 @@ import com.craftworks.peerreview.ui.viewmodels.FeedbackViewModel
 import fadeGradient
 import org.jetbrains.compose.resources.stringResource
 import peerreview.composeapp.generated.resources.Res
-import peerreview.composeapp.generated.resources.empty_questions_dark
+import peerreview.composeapp.generated.resources.empty_feedback_dark
 import peerreview.composeapp.generated.resources.feedback_empty
 import peerreview.composeapp.generated.resources.header_answer
 import java.awt.Cursor
@@ -88,7 +88,7 @@ fun StudentGiveFeedbackScreen(
             if (studentQuestion == null) {
                 item {
                     EmptyViewItem(
-                        Res.drawable.empty_questions_dark,
+                        Res.drawable.empty_feedback_dark,
                         Res.string.feedback_empty
                     )
                 }

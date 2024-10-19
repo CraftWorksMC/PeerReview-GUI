@@ -43,6 +43,10 @@
     <string name="answer_send">Invia</string>
     <string name="answer_empty">Nessuna domanda all'orizzonte... per ora.</string>
 
+
     <!-- Student Feedback Screen -->
+    <string name="feedback_feedback_text">Feedback</string>
+    <string name="feedback_missing_elements">Mancanze</string>
     <string name="feedback_empty">Hai finito, niente feedback da dare.</string>
+
 </resources>

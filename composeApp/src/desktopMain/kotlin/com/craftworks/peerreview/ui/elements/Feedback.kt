@@ -49,6 +49,8 @@ import peerreview.composeapp.generated.resources.Outfit_Light
 import peerreview.composeapp.generated.resources.Res
 import peerreview.composeapp.generated.resources.answer_isChatGpt
 import peerreview.composeapp.generated.resources.answer_send
+import peerreview.composeapp.generated.resources.feedback_feedback_text
+import peerreview.composeapp.generated.resources.feedback_missing_elements
 import java.awt.Cursor
 import kotlin.math.abs
 
@@ -114,7 +116,7 @@ fun StudentFeedback(
                 onValueChange = { feedback = it },
                 label = {
                     Text(
-                        text = "Feedback",
+                        text = stringResource(Res.string.feedback_feedback_text),
                         color = peerReviewColorScheme.onSurfaceVariant,
                         fontFamily = FontFamily(Font(Res.font.Outfit_Bold)),
                         fontSize = MaterialTheme.typography.titleMedium.fontSize,
@@ -131,7 +133,7 @@ fun StudentFeedback(
                 onValueChange = { missingElements = it },
                 label = {
                     Text(
-                        text = "Mancanze",
+                        text = stringResource(Res.string.feedback_missing_elements),
                         color = peerReviewColorScheme.onSurfaceVariant,
                         fontFamily = FontFamily(Font(Res.font.Outfit_Bold)),
                         fontSize = MaterialTheme.typography.titleMedium.fontSize,
