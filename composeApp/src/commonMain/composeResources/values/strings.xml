@@ -18,6 +18,7 @@
     <string name="header_login">Accedi</string>
     <string name="header_lessons">Lezioni della classe </string>
     <string name="header_answer">Rispondi</string>
+    <string name="header_feedback">Dai Feedback</string>
     <string name="header_grades">Voti</string>
 
 
@@ -41,4 +42,7 @@
     <string name="answer_isChatGpt">Hai usato ChatGPT?</string>
     <string name="answer_send">Invia</string>
     <string name="answer_empty">Nessuna domanda all'orizzonte... per ora.</string>
+
+    <!-- Student Feedback Screen -->
+    <string name="feedback_empty">Hai finito, niente feedback da dare.</string>
 </resources>

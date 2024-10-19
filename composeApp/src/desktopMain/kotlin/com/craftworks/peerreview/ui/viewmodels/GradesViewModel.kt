@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 
 class GradesViewmodel() : ViewModel(), ReloadableViewModel {
-    private val _currentLessonId = MutableStateFlow(9)
+    private val _currentLessonId = MutableStateFlow(-1)
     val currentLessonId: StateFlow<Int> = _currentLessonId.asStateFlow()
 
     private val _studentGrades = MutableStateFlow<List<PeerReviewAnswerData>>(mutableListOf())

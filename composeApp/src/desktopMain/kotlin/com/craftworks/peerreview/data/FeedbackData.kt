@@ -19,7 +19,7 @@ data class PeerReviewFeedbackDataJson(
 
 @Serializable
 data class PeerReviewAnswerForFeedbackData(
-    val id: Int,
+    var id: Int,
     val question: String?,
     val answer_text: String?
 )

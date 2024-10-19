@@ -2,7 +2,9 @@ package com.craftworks.peerreview.ui.elements
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -16,6 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -27,6 +31,7 @@ import com.craftworks.peerreview.ui.theme.peerReviewColorScheme
 import org.jetbrains.compose.resources.Font
 import peerreview.composeapp.generated.resources.Outfit_Light
 import peerreview.composeapp.generated.resources.Res
+import java.awt.Cursor
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -48,7 +53,8 @@ fun StudentLesson(
                 navController.navigate(Screen.S_Grades.createRoute(data.id)) {
                     launchSingleTop = true
                 }
-            },
+            }
+            .pointerHoverIcon(PointerIcon(Cursor(Cursor.HAND_CURSOR))),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -113,24 +119,31 @@ fun StudentLesson(
             overflow = TextOverflow.Ellipsis
         )
         VerticalDivider(color = peerReviewColorScheme.surfaceBright)
-        Text(
-            text = data.count_feedback_made.toString(),
-            color = if (data.count_feedback_made == 0) peerReviewColorScheme.error else peerReviewColorScheme.onSurfaceVariant,
-            fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
-            fontSize = MaterialTheme.typography.titleMedium.fontSize,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-            textAlign = TextAlign.Center,
+        Box(
             modifier = Modifier
                 .weight(1f)
-                .wrapContentHeight()
-                .padding(horizontal = 6.dp)
+                .fillMaxHeight()
+                .padding(horizontal = 6.dp, vertical = 6.dp)
+                .clip(RoundedCornerShape(12.dp))
                 .clickable {
                     navController.navigate(Screen.S_Feedback.createRoute(data.id)) {
                         launchSingleTop = true
                     }
                 }
-        )
+                .pointerHoverIcon(PointerIcon(Cursor(Cursor.HAND_CURSOR))),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = data.count_feedback_made.toString(),
+                color = if (data.count_feedback_made == 0) peerReviewColorScheme.error else peerReviewColorScheme.onSurfaceVariant,
+                fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
+                fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                textAlign = TextAlign.Center
+            )
+        }
+
     }
 }
 

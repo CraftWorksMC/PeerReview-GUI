@@ -16,16 +16,7 @@ import kotlinx.serialization.json.Json
 class LessonsViewmodel() : ViewModel(), ReloadableViewModel {
     private val _studentLessons = MutableStateFlow<List<StudentLessonsTableData>>(mutableListOf())
     val studentLessons: StateFlow<List<StudentLessonsTableData>> = _studentLessons.asStateFlow()
-
-//    private val _password = MutableStateFlow("")
-//    val password: StateFlow<String> = _password.asStateFlow()
-//
-//    private val _courseId = MutableStateFlow("")
-//    val courseId: StateFlow<String> = _courseId.asStateFlow()
-//
-//    private val _role = MutableStateFlow(PeerReviewRole.STUDENT)
-//    val role: StateFlow<PeerReviewRole> = _role.asStateFlow()
-
+    
     init {
         getStudentCredentials()
     }

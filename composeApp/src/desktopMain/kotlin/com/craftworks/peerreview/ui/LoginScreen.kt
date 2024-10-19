@@ -39,6 +39,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.font.FontFamily
@@ -63,6 +65,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import peerreview.composeapp.generated.resources.Outfit_Bold
 import peerreview.composeapp.generated.resources.Res
 import peerreview.composeapp.generated.resources.header_login
+import java.awt.Cursor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
@@ -146,7 +149,7 @@ fun LoginScreen() {
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text("Username") },
+            label = { Text("Email") },
             modifier = Modifier
                 .width(320.dp)
                 .padding(vertical = 8.dp),
@@ -204,14 +207,16 @@ fun LoginScreen() {
                 label = { Text("Studente") },
                 icon = {},
                 shape = SegmentedButtonDefaults.itemShape(0, 2),
-                selected = peerReviewRole == PeerReviewRole.STUDENT
+                selected = peerReviewRole == PeerReviewRole.STUDENT,
+                modifier = Modifier.pointerHoverIcon(PointerIcon(Cursor(Cursor.HAND_CURSOR)))
             )
             SegmentedButton(
                 onClick = { peerReviewRole = PeerReviewRole.TEACHER },
                 label = { Text("Docente") },
                 icon = {},
                 shape = SegmentedButtonDefaults.itemShape(1, 2),
-                selected = peerReviewRole == PeerReviewRole.TEACHER
+                selected = peerReviewRole == PeerReviewRole.TEACHER,
+                modifier = Modifier.pointerHoverIcon(PointerIcon(Cursor(Cursor.HAND_CURSOR)))
             )
         }
 
@@ -229,7 +234,8 @@ fun LoginScreen() {
                 .onGloballyPositioned { coordinates ->
                     buttonPosition = coordinates.localToWindow(Offset.Zero)
                     buttonSize = coordinates.size
-                },
+                }
+                .pointerHoverIcon(PointerIcon(Cursor(Cursor.HAND_CURSOR))),
             shape = RoundedCornerShape(12.dp)
         ) {
             Text("Accedi")
@@ -275,7 +281,8 @@ fun LoginScreen() {
             modifier = Modifier
                 .padding(vertical = 8.dp)
                 .width(320.dp)
-                .animateContentSize(),
+                .animateContentSize()
+                .pointerHoverIcon(PointerIcon(Cursor(Cursor.HAND_CURSOR))),
             shape = RoundedCornerShape(12.dp)
         ) {
             Text("Riprova")

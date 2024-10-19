@@ -13,6 +13,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.craftworks.peerreview.navigation.Screen
@@ -22,8 +24,8 @@ import org.jetbrains.compose.resources.stringResource
 import peerreview.composeapp.generated.resources.BaobabLogoNew
 import peerreview.composeapp.generated.resources.Res
 import peerreview.composeapp.generated.resources.nav_answer
-import peerreview.composeapp.generated.resources.nav_feedback
 import peerreview.composeapp.generated.resources.nav_lessons
+import java.awt.Cursor
 
 @Composable
 fun DrawerContent(onItemClick: (String) -> Unit) {
@@ -50,7 +52,8 @@ fun DrawerContent(onItemClick: (String) -> Unit) {
             selected = false,
             onClick = { onItemClick(Screen.S_Lessons.route) },
             colors = navigationDrawerColors,
-            modifier = Modifier.padding(vertical = 6.dp).height(48.dp),
+            modifier = Modifier.padding(vertical = 6.dp).height(48.dp)
+                .pointerHoverIcon(PointerIcon(Cursor(Cursor.HAND_CURSOR))),
             shape = RoundedCornerShape(12.dp),
         )
         NavigationDrawerItem(
@@ -58,17 +61,18 @@ fun DrawerContent(onItemClick: (String) -> Unit) {
             selected = false,
             onClick = { onItemClick(Screen.S_Answer.route) },
             colors = navigationDrawerColors,
-            modifier = Modifier.padding(vertical = 6.dp).height(48.dp),
+            modifier = Modifier.padding(vertical = 6.dp).height(48.dp)
+                .pointerHoverIcon(PointerIcon(Cursor(Cursor.HAND_CURSOR))),
             shape = RoundedCornerShape(12.dp),
         )
-        NavigationDrawerItem(
-            label = { Text(stringResource(Res.string.nav_feedback)) },
-            selected = false,
-            onClick = { onItemClick(Screen.S_Lessons.route) },
-            colors = navigationDrawerColors,
-            modifier = Modifier.padding(vertical = 6.dp).height(48.dp),
-            shape = RoundedCornerShape(12.dp),
-        )
+//        NavigationDrawerItem(
+//            label = { Text(stringResource(Res.string.nav_feedback)) },
+//            selected = false,
+//            onClick = { onItemClick(Screen.S_Lessons.route) },
+//            colors = navigationDrawerColors,
+//            modifier = Modifier.padding(vertical = 6.dp).height(48.dp),
+//            shape = RoundedCornerShape(12.dp),
+//        )
 //        NavigationDrawerItem(
 //            label = { Text(stringResource(Res.string.nav_grades)) },
 //            selected = false,

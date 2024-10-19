@@ -4,9 +4,11 @@ import androidx.compose.animation.core.EaseInOutSine
 import androidx.compose.animation.core.Easing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithCache
@@ -51,8 +53,16 @@ fun Modifier.circularReveal(
         size.value = it.size
     }.composed(
         factory = {
+            // Remember the target value to ensure the animation state is retained across recompositions
+            val targetValue = remember { mutableStateOf(if (isVisible) 1f else 0f) }
+
+            // Update targetValue without resetting the animation if it's called again
+            LaunchedEffect(isVisible) {
+                targetValue.value = if (isVisible) 1f else 0f
+            }
             val animationProgress: State<Float> = animateFloatAsState(
-                targetValue = if (isVisible) 1f else 0f,
+                //targetValue = if (isVisible) 1f else 0f,
+                targetValue = targetValue.value,
                 animationSpec = tween(durationMillis = durationMillis, easing = easing),
                 label = ""
             )

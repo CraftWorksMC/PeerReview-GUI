@@ -70,13 +70,13 @@ fun SetupNavGraph(
         }
 
         composable(
-            route = Screen.S_Grades.getRoute(),
+            route = Screen.S_Feedback.getRoute(),
             arguments = listOf(navArgument("lessonId") { type = NavType.IntType })
         ) {
             val lessonId = remember { it.arguments?.getInt("lessonId") ?: 0 }
             if (feedbackViewmodel.currentLessonId.value != lessonId)
                 feedbackViewmodel.updateLessonId(lessonId)
-            StudentGiveFeedbackScreen(feedbackViewmodel)
+            StudentGiveFeedbackScreen(feedbackViewmodel, navController)
         }
     }
 }

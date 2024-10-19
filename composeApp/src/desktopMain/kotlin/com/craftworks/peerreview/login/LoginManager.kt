@@ -175,7 +175,6 @@ class LoginManager {
     companion object {
         var loginStatus by mutableStateOf("")
         var isLoggedIn by mutableStateOf(false)
-        var isStudentEnrolled = mutableStateOf(false)
 
         var guidToken by mutableStateOf("")
         var courseId by mutableStateOf("")
@@ -194,7 +193,7 @@ class LoginManager {
             val loginResultData = LoginResultData()
 
             for (countAttempt in 0 until maxAttempts) {
-                loginStatus = "Tentativo di autenticazione ${countAttempt + 1} di 3\n"
+                loginStatus = "Tentativo di autenticazione ${countAttempt + 1} di $maxAttempts\n"
 
                 if (!isLoginDone) {
                     val loginResponse = getAuth(credentials)
@@ -204,24 +203,24 @@ class LoginManager {
                         continue
                     }
 
-                    loginStatus += "Autenticazione avvenuta con successo!\n"
+                    //loginStatus += "Autenticazione avvenuta con successo!\n"
                     println("Login Status: $loginStatus")
 
                     loginResultData.guidToken = getAuthToken(loginResponse)
                     guidToken = loginResultData.guidToken
                     println("GUID Token: $guidToken")
-                    loginStatus += "Ricevuto token di accesso.\n"
+                    //loginStatus += "Ricevuto token di accesso.\n"
 
                     isLoginDone = true
                 }
 
-                loginStatus += "Controllo del ruolo...\n"
+                //loginStatus += "Controllo del ruolo...\n"
 
                 if (credentials.courseID.toIntOrNull() != null && !isRoleFound) {
                     val testCheckRole = checkRole(credentials)
 
                     if (testCheckRole.isSuccess) {
-                        loginStatus += "Controllo del ruolo avvenuto con successo!\n"
+                        //loginStatus += "Controllo del ruolo avvenuto con successo!\n"
                         println("testCheckRoleSuccess: true")
                         val roleResult = testCheckRole.getOrNull()
                         credentials.isCredentialFileExist = roleResult?.isCredentialsFound ?: false
@@ -251,14 +250,12 @@ class LoginManager {
         val loginData = LoginJsonData(
             email = credentials.email,
             password = credentials.password,
-            website = 8 // Change as needed for your website ID
+            website = 8
         )
 
-        // Send POST request using ApiHelper
         return ApiHelper.sendApiRequestPOST(loginData, ApiHelper.postLogin())
     }
 
-    // Function to extract token from login response
     private fun getAuthToken(loginResponse: Response): String {
         val response = loginResponse.body!!.string()
         println(response)
@@ -278,10 +275,9 @@ class LoginManager {
         val role = PeerReviewRoleJsonData(
             course_class_id = credentials.courseID.toInt(),
             role = credentials.role,
-            website = 8 // Change as needed for your website ID
+            website = 8
         )
 
-        // Send POST request using ApiHelper
         val roleResponse = ApiHelper.sendApiRequestPOST(role, ApiHelper.postRole())
 
         if (roleResponse.isSuccessful) {

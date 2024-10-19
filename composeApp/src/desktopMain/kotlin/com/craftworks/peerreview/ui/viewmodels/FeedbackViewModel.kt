@@ -16,24 +16,23 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 
 class FeedbackViewModel() : ViewModel(), ReloadableViewModel {
-    private val _currentLessonId = MutableStateFlow(14)
+    private val _currentLessonId = MutableStateFlow(-1)
     val currentLessonId: StateFlow<Int> = _currentLessonId.asStateFlow()
 
     private val _studentFeedback = MutableStateFlow<PeerReviewAnswerForFeedbackData?>(null)
     val studentFeedback: StateFlow<PeerReviewAnswerForFeedbackData?> =
         _studentFeedback.asStateFlow()
 
-    init {
-        getStudentFeedback()
-    }
-
     override fun reloadData() {
         getStudentFeedback()
     }
 
-    private fun getStudentFeedback() {
+    fun getStudentFeedback() {
+        println("GETTING FEEDBACK!")
         viewModelScope.launch {
             coroutineScope {
+                _studentFeedback.value = null
+
                 val studentFeedbackUrl = ApiHelper.getFeedback(
                     LoginManager.guidToken, _currentLessonId.value, LoginManager.role, 8
                 )
@@ -43,12 +42,13 @@ class FeedbackViewModel() : ViewModel(), ReloadableViewModel {
 
                 val studentFeedbackData = studentFeedbackDataDeferred.await()
 
-                studentFeedbackData.body?.string()?.let {
-                    val feedback = Json.decodeFromString<PeerReviewAnswerForFeedbackData>(it)
-                    _studentFeedback.value = feedback
+                if (studentFeedbackData.isSuccessful) {
+                    studentFeedbackData.body?.string()?.let {
+                        val feedback = Json.decodeFromString<PeerReviewAnswerForFeedbackData>(it)
+                        _studentFeedback.value = feedback
+                    }
+                    println("Student Feedback JSON: ${_studentFeedback.value}")
                 }
-
-                println("Student Feedback JSON: ${_studentFeedback.value}")
             }
         }
     }

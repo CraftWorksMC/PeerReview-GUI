@@ -23,6 +23,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -38,6 +40,7 @@ import peerreview.composeapp.generated.resources.Res
 import peerreview.composeapp.generated.resources.empty_grades_dark
 import peerreview.composeapp.generated.resources.header_grades
 import peerreview.composeapp.generated.resources.lessons_empty
+import java.awt.Cursor
 
 @Composable
 fun StudentGradeScreen(
@@ -58,7 +61,8 @@ fun StudentGradeScreen(
                 },
                 modifier = Modifier
                     .size(64.dp)
-                    .padding(12.dp, 12.dp, 0.dp, 6.dp),
+                    .padding(12.dp, 12.dp, 0.dp, 6.dp)
+                    .pointerHoverIcon(PointerIcon(Cursor(Cursor.HAND_CURSOR))),
                 shape = RoundedCornerShape(12.dp),
                 colors = IconButtonDefaults.filledIconButtonColors()
                     .copy(
