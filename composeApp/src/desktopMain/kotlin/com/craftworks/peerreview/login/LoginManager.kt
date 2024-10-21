@@ -274,7 +274,7 @@ class LoginManager {
 
         val role = PeerReviewRoleJsonData(
             course_class_id = credentials.courseID.toInt(),
-            role = credentials.role,
+            role = credentials.role.ordinal + 1,
             website = 8
         )
 

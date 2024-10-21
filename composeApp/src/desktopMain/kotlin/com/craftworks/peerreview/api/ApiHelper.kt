@@ -56,6 +56,8 @@ object ApiHelper {
         val json = Json.encodeToString(data)
         val body = json.toRequestBody("application/json".toMediaTypeOrNull())
 
+        println("JSON Body for url $postUrl: \n $json")
+
         val request = Request.Builder().url(getApiBase() + postUrl).post(body)
 
         // Try sending request.

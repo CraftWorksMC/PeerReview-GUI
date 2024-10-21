@@ -12,7 +12,7 @@ enum class PeerReviewRole() {
 
 @Serializable
 data class PeerReviewRoleJsonData(
-    val role: PeerReviewRole,
+    val role: Int,
     val course_class_id: Int,
     val website: Int
 ) : PeerReviewData()

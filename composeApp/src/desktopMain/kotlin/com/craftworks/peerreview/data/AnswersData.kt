@@ -32,7 +32,7 @@ data class PeerReviewQuestionData(
 data class PeerReviewAnswererJsonData(
     val question_id: Int,
     val question_text: String,
-    val role: PeerReviewRole,
+    val role: Int,
     val course_class_id: Int,
     val website: Int,
     val token: String,

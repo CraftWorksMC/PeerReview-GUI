@@ -58,7 +58,7 @@ class AnswersViewModel() : ViewModel(), ReloadableViewModel {
             question_text = answer,
             course_class_id = LoginManager.courseId.toInt(),
             question_id = questionId,
-            role = PeerReviewRole.STUDENT,
+            role = PeerReviewRole.STUDENT.ordinal + 1,
             token = LoginManager.guidToken,
             website = 8,
             is_chat_gpt = if (isChatGpt) 1 else 0

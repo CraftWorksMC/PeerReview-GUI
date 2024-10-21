@@ -66,7 +66,7 @@ class FeedbackViewModel() : ViewModel(), ReloadableViewModel {
             feedback_text = feedback,
             grade = grade,
             missing_elements = missingElements,
-            role = PeerReviewRole.STUDENT,
+            role = PeerReviewRole.STUDENT.ordinal + 1,
             website = 8,
             token = LoginManager.guidToken,
             is_chat_gpt = if (isChatGpt) 1 else 0

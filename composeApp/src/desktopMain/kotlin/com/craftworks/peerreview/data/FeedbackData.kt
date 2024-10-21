@@ -11,7 +11,7 @@ data class PeerReviewFeedbackDataJson(
     val feedback_text: String?,
     val grade: Float,
     val missing_elements: String?,
-    val role: PeerReviewRole,
+    val role: Int,
     val website: Int,
     val token: String,
     val is_chat_gpt: Int
