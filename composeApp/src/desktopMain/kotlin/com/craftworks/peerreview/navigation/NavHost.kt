@@ -32,6 +32,8 @@ import com.craftworks.peerreview.ui.viewmodels.LessonsViewmodel
 fun SetupNavGraph(
     navController: NavHostController,
 ) {
+    println("Initialized NavGraph")
+
     val lessonsViewmodel = remember { LessonsViewmodel() }
     val questionsViewmodel = remember { AnswersViewModel() }
     val feedbackViewmodel = remember { FeedbackViewModel() }

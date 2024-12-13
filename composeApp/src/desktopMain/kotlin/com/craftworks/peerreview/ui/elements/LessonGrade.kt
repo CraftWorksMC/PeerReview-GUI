@@ -20,7 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.craftworks.peerreview.data.PeerReviewAnswerData
+import com.craftworks.peerreview.data.legacy.PeerReviewAnswerData
 import com.craftworks.peerreview.ui.theme.peerReviewColorScheme
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.painterResource

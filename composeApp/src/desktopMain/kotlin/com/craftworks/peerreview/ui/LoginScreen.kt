@@ -1,9 +1,8 @@
 package com.craftworks.peerreview.ui
 
-import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,14 +17,10 @@ import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SegmentedButtonDefaults
-import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -41,7 +36,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
@@ -50,12 +44,18 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import com.craftworks.peerreview.data.Credentials
+import com.craftworks.peerreview.api.ApiClient
+import com.craftworks.peerreview.api.ApiRepository
+import com.craftworks.peerreview.api.ApiRoutes
 import com.craftworks.peerreview.data.PeerReviewRole
+import com.craftworks.peerreview.data.User
 import com.craftworks.peerreview.loadData
-import com.craftworks.peerreview.login.LoginManager
-import com.craftworks.peerreview.ui.elements.modifiers.circularReveal
+import com.craftworks.peerreview.ui.elements.RegisterLoginToggle
 import com.craftworks.peerreview.ui.theme.peerReviewColorScheme
+import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.bodyAsText
+import io.ktor.http.HttpStatusCode
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
@@ -64,48 +64,40 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import peerreview.composeapp.generated.resources.Outfit_Bold
 import peerreview.composeapp.generated.resources.Res
-import peerreview.composeapp.generated.resources.header_login
+import peerreview.composeapp.generated.resources.login_text
+import peerreview.composeapp.generated.resources.register_text
 import java.awt.Cursor
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
-fun LoginScreen() {
+fun LoginScreen(onLoginSuccess: (user: User) -> Unit) {
+    var name: String by remember { mutableStateOf("") }
+
     var email: String by remember { mutableStateOf("") }
+    val emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$".toRegex()
+
     var password: String by remember { mutableStateOf("") }
     var passwordVisible: Boolean by remember { mutableStateOf(false) }
-    var courseID: String by remember { mutableStateOf("") }
-    var peerReviewRole: PeerReviewRole by remember { mutableStateOf(PeerReviewRole.STUDENT) }
+
+    var isLoading: Boolean by remember { mutableStateOf(false) }
+    var isRegister: Boolean by remember { mutableStateOf(false) }
+    var isLoginError: Boolean by remember { mutableStateOf(false) }
 
     val coroutineScope = rememberCoroutineScope()
-
-    var credentials: Credentials
 
     var buttonPosition by remember { mutableStateOf(Offset.Zero) }
     var buttonSize by remember { mutableStateOf(IntSize.Zero) }
 
-
+    // Get saved credentials at launch
     LaunchedEffect(Unit) {
         coroutineScope.launch {
-            println("Getting saved credentials...")
+            println("Getting saved credentials")
             try {
                 val loadedCredentials = loadData("loginInfo.json")
                 println(loadedCredentials)
                 if (loadedCredentials != null) {
-
-                    credentials = Json.decodeFromString<Credentials>(loadedCredentials)
-
-                    if (credentials.email.isBlank() ||
-                        credentials.password.isBlank() ||
-                        credentials.courseID.isBlank()
-                    ) return@launch
-
-                    email = credentials.email
-                    password = credentials.password
-                    courseID = credentials.courseID
-                    peerReviewRole = credentials.role
-
-                    LoginManager().attemptLoginAsync(credentials)
+                    val credentials = Json.decodeFromString<List<String>>(loadedCredentials)
+                    email = credentials[0]
+                    password = credentials[1]
                 }
             } catch (e: SerializationException) {
                 // If JSON deserialization fails, use default input
@@ -114,10 +106,6 @@ fun LoginScreen() {
                 // Catch any other exceptions
                 println("An error occurred: ${e.message}, using default input")
             }
-
-            credentials = Credentials(
-                email, password, courseID, peerReviewRole
-            )
         }
     }
 
@@ -137,11 +125,32 @@ fun LoginScreen() {
                 .background(peerReviewColorScheme.surfaceContainer)
         ) {
             Text(
-                text = stringResource(Res.string.header_login),
+                text = if (isRegister)
+                    stringResource(Res.string.register_text).split("? ").last()
+                else
+                    stringResource(Res.string.login_text).split("? ").last(),
                 modifier = Modifier.align(Alignment.Center),
                 color = peerReviewColorScheme.onSurfaceVariant,
                 fontFamily = FontFamily(Font(Res.font.Outfit_Bold)),
                 fontSize = MaterialTheme.typography.headlineSmall.fontSize
+            )
+        }
+
+        // Register name TextField
+        AnimatedVisibility(isRegister) {
+            OutlinedTextField(
+                value = name,
+                onValueChange = { name = it },
+                label = { Text("Nome") },
+                modifier = Modifier
+                    .width(320.dp)
+                    .padding(vertical = 8.dp),
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
+                ),
+                shape = RoundedCornerShape(12.dp)
             )
         }
 
@@ -154,8 +163,12 @@ fun LoginScreen() {
                 .width(320.dp)
                 .padding(vertical = 8.dp),
             singleLine = true,
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-            shape = RoundedCornerShape(12.dp)
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Email,
+                imeAction = ImeAction.Next
+            ),
+            shape = RoundedCornerShape(12.dp),
+            isError = isLoginError
         )
 
         // Password TextField
@@ -167,7 +180,8 @@ fun LoginScreen() {
                 .width(320.dp)
                 .padding(vertical = 8.dp),
             singleLine = true,
-            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            visualTransformation = if (passwordVisible) VisualTransformation.None
+            else PasswordVisualTransformation(),
             trailingIcon = {
                 val icon =
                     if (passwordVisible) Icons.Rounded.Visibility else Icons.Rounded.VisibilityOff
@@ -180,52 +194,44 @@ fun LoginScreen() {
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
-                imeAction = ImeAction.Done
+                imeAction = if (isRegister) ImeAction.Next else ImeAction.Done
             ),
-            shape = RoundedCornerShape(12.dp)
+            shape = RoundedCornerShape(12.dp),
+            isError = isLoginError
         )
-
-        // Class ID TextField
-        OutlinedTextField(
-            value = courseID,
-            onValueChange = { courseID = it },
-            label = { Text("ID Classe") },
-            modifier = Modifier
-                .width(320.dp)
-                .padding(vertical = 8.dp),
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-            shape = RoundedCornerShape(12.dp)
-        )
-
-        // Role Choice
-        SingleChoiceSegmentedButtonRow(
-            modifier = Modifier.width(320.dp).padding(vertical = 8.dp)
-        ) {
-            SegmentedButton(
-                onClick = { peerReviewRole = PeerReviewRole.STUDENT },
-                label = { Text("Studente") },
-                icon = {},
-                shape = SegmentedButtonDefaults.itemShape(0, 2),
-                selected = peerReviewRole == PeerReviewRole.STUDENT,
-                modifier = Modifier.pointerHoverIcon(PointerIcon(Cursor(Cursor.HAND_CURSOR)))
-            )
-            SegmentedButton(
-                onClick = { peerReviewRole = PeerReviewRole.TEACHER },
-                label = { Text("Docente") },
-                icon = {},
-                shape = SegmentedButtonDefaults.itemShape(1, 2),
-                selected = peerReviewRole == PeerReviewRole.TEACHER,
-                modifier = Modifier.pointerHoverIcon(PointerIcon(Cursor(Cursor.HAND_CURSOR)))
-            )
-        }
 
         // Login Button
         Button(
             onClick = {
-                credentials = Credentials(email, password, courseID, peerReviewRole)
                 coroutineScope.launch {
-                    LoginManager().attemptLoginAsync(credentials)
+                    isLoading = true
+                    val request: Result<HttpResponse>
+
+                    if (isRegister) {
+                        request = ApiRepository().postRegister(
+                            User(
+                                name = name,
+                                email = email,
+                                password = password,
+                                classId = -1,
+                                role = PeerReviewRole.STUDENT
+                            )
+                        )
+                    }
+                    else {
+                        ApiClient.setCredentials(email, password)
+                        request = ApiRepository().getAuth()
+                    }
+
+                    request.onSuccess { response ->
+                        val user = Json.decodeFromString<User>(response.bodyAsText())
+                        onLoginSuccess(user)
+                    }.onFailure { error ->
+                        isLoginError = true
+                        println("Error: ${error.message}")
+                    }
+
+                    isLoading = false
                 }
             },
             modifier = Modifier
@@ -235,57 +241,44 @@ fun LoginScreen() {
                     buttonPosition = coordinates.localToWindow(Offset.Zero)
                     buttonSize = coordinates.size
                 }
-                .pointerHoverIcon(PointerIcon(Cursor(Cursor.HAND_CURSOR))),
-            shape = RoundedCornerShape(12.dp)
-        ) {
-            Text("Accedi")
-        }
-    }
-
-    Column(
-        Modifier.fillMaxSize()
-            .circularReveal(
-                isVisible = LoginManager.loginStatus.isNotBlank(),
-                revealFrom = Offset(
-                    buttonPosition.x + (buttonSize.width / 2),
-                    buttonPosition.y + (buttonSize.height / 2)
+                .pointerHoverIcon(
+                    PointerIcon(
+                        Cursor(
+                            if (email.matches(emailPattern) && password.length >= 2 && (if (isRegister) name.isNotBlank() else true))
+                                Cursor.HAND_CURSOR
+                            else
+                                Cursor.DEFAULT_CURSOR
+                        )
+                    )
                 ),
-                durationMillis = 1000,
-                //easing = FastOutSlowInEasing
-            )
-            .background(peerReviewColorScheme.surfaceContainer)
-            .then(
-                if (LoginManager.loginStatus.isNotBlank())
-                    Modifier.pointerInput(Unit) { detectTapGestures { } }
-                else
-                    Modifier
-            ),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        CircularProgressIndicator(
-            strokeCap = StrokeCap.Round,
-            color = peerReviewColorScheme.onBackground
-        )
-
-        Text(
-            text = LoginManager.loginStatus,
-            color = peerReviewColorScheme.onBackground
-        )
-
-        // Login Button
-        Button(
-            onClick = {
-                LoginManager.loginStatus = ""
-            },
-            modifier = Modifier
-                .padding(vertical = 8.dp)
-                .width(320.dp)
-                .animateContentSize()
-                .pointerHoverIcon(PointerIcon(Cursor(Cursor.HAND_CURSOR))),
-            shape = RoundedCornerShape(12.dp)
+            shape = RoundedCornerShape(12.dp),
+            enabled = email.matches(emailPattern) && password.length >= 2 && (if (isRegister) name.isNotBlank() else true)
         ) {
-            Text("Riprova")
+            AnimatedContent(
+                targetState = isLoading
+            ) {
+                if (it) {
+                    CircularProgressIndicator(
+                        color = peerReviewColorScheme.onPrimary,
+                        strokeWidth = 4.dp,
+                        strokeCap = StrokeCap.Round
+                    )
+                } else {
+                    Text(
+                        if (isRegister)
+                            stringResource(Res.string.register_text).split("? ").last()
+                        else
+                            stringResource(Res.string.login_text).split("? ").last()
+                    )
+                }
+            }
+
         }
+
+        // Register button
+        RegisterLoginToggle(
+            onClick = { isRegister = !isRegister },
+            isRegister = isRegister
+        )
     }
 }

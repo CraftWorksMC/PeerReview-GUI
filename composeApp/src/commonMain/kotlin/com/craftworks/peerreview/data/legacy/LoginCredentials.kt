@@ -1,4 +1,4 @@
-package com.craftworks.peerreview.data
+package com.craftworks.peerreview.data.legacy
 
 import kotlinx.serialization.Serializable
 import java.util.UUID

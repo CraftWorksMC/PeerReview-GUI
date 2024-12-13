@@ -25,7 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.craftworks.peerreview.data.StudentLessonsTableData
+import com.craftworks.peerreview.data.legacy.StudentLessonsTableData
 import com.craftworks.peerreview.navigation.Screen
 import com.craftworks.peerreview.ui.theme.peerReviewColorScheme
 import org.jetbrains.compose.resources.Font

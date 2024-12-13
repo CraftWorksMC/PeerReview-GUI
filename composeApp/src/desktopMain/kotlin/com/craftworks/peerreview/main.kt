@@ -11,12 +11,17 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.PermanentNavigationDrawer
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.structuralEqualityPolicy
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.navigation.compose.rememberNavController
-import com.craftworks.peerreview.login.LoginManager
 import com.craftworks.peerreview.navigation.SetupNavGraph
 import com.craftworks.peerreview.ui.LoginScreen
 import com.craftworks.peerreview.ui.elements.DrawerContent
@@ -25,22 +30,23 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import java.awt.Dimension
 
 
-// Application entry point. Create window with minimum dimentions of 800x600.
+// Application entry point. Create window with minimum dimensions of 800x600.
 // Then we setup the navgraph and navigate to the login screen as first destination.
 
-@OptIn(ExperimentalResourceApi::class)
 fun main() = application {
     Window(
-        onCloseRequest = ::exitApplication,
-        title = "PeerReview",
+        onCloseRequest = { exitApplication() },
+        title = "PeerReview"
     ) {
         window.minimumSize = Dimension(800, 600)
 
         MaterialTheme(
             colorScheme = peerReviewColorScheme
         ) {
+            var isLoggedIn by remember { mutableStateOf(false) }
+
             AnimatedContent(
-                targetState = LoginManager.isLoggedIn,
+                targetState = isLoggedIn,
                 transitionSpec = {
                     fadeIn(animationSpec = tween(300)) togetherWith
                             fadeOut(animationSpec = tween(300))
@@ -69,8 +75,12 @@ fun main() = application {
                     ) {
                         SetupNavGraph(navController)
                     }
-                } else {
-                    LoginScreen()
+                }
+                else {
+                    LoginScreen() {
+                        println("Login success! Benvenuto ${it.name}!")
+                        isLoggedIn = true
+                    }
                 }
             }
         }

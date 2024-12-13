@@ -2,9 +2,11 @@ package com.craftworks.peerreview.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.craftworks.peerreview.api.ApiHelper
-import com.craftworks.peerreview.data.StudentLessonsTableData
-import com.craftworks.peerreview.login.LoginManager
+import com.craftworks.peerreview.api.ApiClient
+import com.craftworks.peerreview.api.ApiRepository
+import com.craftworks.peerreview.api.ApiRoutes
+import com.craftworks.peerreview.data.legacy.StudentLessonsTableData
+import io.ktor.client.statement.bodyAsText
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,22 +30,18 @@ class LessonsViewmodel() : ViewModel(), ReloadableViewModel {
     private fun getStudentCredentials() {
         viewModelScope.launch {
             coroutineScope {
-                val lessonSummaryUrl = ApiHelper.getLessonsSummary(
-                    LoginManager.guidToken, LoginManager.courseId, LoginManager.role, 8
-                )
-
-                //val lessonSummaryData = ApiHelper.sendApiRequestGET(lessonSummaryUrl)
                 val lessonSummaryDataDeferred =
-                    async { ApiHelper.sendApiRequestGET(lessonSummaryUrl) }
+                    async { ApiRepository().getLessons(ApiClient.classId) }
 
                 val lessonSummaryData = lessonSummaryDataDeferred.await()
 
-                lessonSummaryData.body?.string()?.let {
-                    val lessons = Json.decodeFromString<List<StudentLessonsTableData>>(it)
+                lessonSummaryData.onSuccess {
+                    val lessons = Json.decodeFromString<List<StudentLessonsTableData>>(it.bodyAsText())
                     _studentLessons.value = lessons
+                    println("Student Lessons JSON: ${_studentLessons.value}")
+                }.onFailure {
+                      println("Error getting student lessons: ${it.message}")
                 }
-
-                println("Student Lessons JSON: ${_studentLessons.value}")
             }
         }
     }

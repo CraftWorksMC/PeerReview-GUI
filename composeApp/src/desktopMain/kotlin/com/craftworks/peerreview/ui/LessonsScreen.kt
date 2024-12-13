@@ -25,7 +25,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.craftworks.peerreview.login.LoginManager
 import com.craftworks.peerreview.ui.elements.EmptyViewItem
 import com.craftworks.peerreview.ui.elements.ScreenHeader
 import com.craftworks.peerreview.ui.elements.StudentLesson
@@ -61,7 +60,7 @@ fun StudentLessonsScreen(
             .background(peerReviewColorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ScreenHeader(stringResource(Res.string.header_lessons) + LoginManager.className)
+        ScreenHeader(stringResource(Res.string.header_lessons))
 
         // ID / Title / Created At / First Deadline / Questions made / Second Deadline / Feedback made
         Row(
@@ -162,9 +161,5 @@ fun StudentLessonsScreen(
                 StudentLesson(lesson, navController)
             }
         }
-
-//        studentLessons.forEach { lesson ->
-//            StudentLesson(lesson)
-//        }
     }
 }
