@@ -36,14 +36,14 @@ kotlin {
             implementation("org.jetbrains.androidx.navigation:navigation-compose:2.7.0-alpha07")
 
             implementation("io.github.sunny-chung:composable-table:1.2.0")
-
-
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.androidx.animation.desktop)
 
-            implementation("org.jetbrains.compose.ui:ui-tooling-preview-desktop:1.7.1")
+            implementation("org.jetbrains.compose.ui:ui-tooling-preview:$1.6.0")
+
         }
     }
 }
@@ -57,9 +57,15 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "PeerReview"
             packageVersion = "1.1.0"
+            description = "Answer questions and grade peers."
+            copyright = "©2024 CraftWorks. All rights reserved."
             jvmArgs(
                 "-Dapple.awt.application.appearance=system"
             )
+
+            macOS {
+                packageName = "Peer Review"
+            }
         }
     }
 }

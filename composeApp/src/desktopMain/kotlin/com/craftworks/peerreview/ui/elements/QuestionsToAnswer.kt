@@ -29,7 +29,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.craftworks.peerreview.data.legacy.PeerReviewQuestionData
-import com.craftworks.peerreview.ui.theme.peerReviewColorScheme
 import com.craftworks.peerreview.ui.viewmodels.AnswersViewModel
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.stringResource
@@ -60,11 +59,11 @@ fun StudentQuestionsToDo(
                 .padding(horizontal = 12.dp, vertical = 6.dp),
             shape = RoundedCornerShape(12.dp),
             colors = CardDefaults.cardColors()
-                .copy(containerColor = peerReviewColorScheme.surfaceContainer),
+                .copy(containerColor = MaterialTheme.colorScheme.surfaceContainer),
         ) {
             Text(
                 text = data.question_text,
-                color = peerReviewColorScheme.onSurfaceVariant,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontFamily = FontFamily(Font(Res.font.Outfit_Bold)),
                 fontSize = MaterialTheme.typography.titleMedium.fontSize,
                 modifier = Modifier.fillMaxWidth().wrapContentHeight()
@@ -94,7 +93,7 @@ fun StudentQuestionsToDo(
                 )
                 Text(
                     text = stringResource(Res.string.answer_isChatGpt),
-                    color = peerReviewColorScheme.onSurfaceVariant,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
                     fontSize = MaterialTheme.typography.bodyLarge.fontSize,
                     modifier = Modifier.wrapContentHeight().padding(start = 6.dp),
@@ -118,7 +117,7 @@ fun StudentQuestionsToDo(
                 ) {
                     Text(
                         text = stringResource(Res.string.answer_send),
-                        color = peerReviewColorScheme.onPrimary,
+                        color = MaterialTheme.colorScheme.onPrimary,
                         fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
                         fontSize = MaterialTheme.typography.bodyLarge.fontSize,
                         modifier = Modifier.wrapContentHeight().padding(start = 6.dp),

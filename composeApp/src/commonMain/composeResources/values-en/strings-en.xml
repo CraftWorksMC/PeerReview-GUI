@@ -1,31 +1,21 @@
 <resources>
-    <!-- Login LEGACY
-    <string name="login_attempt">Tentativo di autenticazione / di </string>
-    <string name="login_error">Errore nell'autenticazione: </string>
-    <string name="login_success">Autenticazione avvenuta con successo!</string>
-    <string name="login_token">Ricevuto token di accesso.</string>
-    <string name="login_roleCheck">Controllo del ruolo...</string>
-    <string name="login_roleSuccess">Controllo del ruolo avvenuto con successo.</string>
-    <string name="login_complete">Login completato!</string>
-    -->
-
     <!-- Login -->
-    <string name="login_text">Hai già un account? Accedi</string>
-    <string name="register_text">Non hai un account? Registrati</string>
+    <string name="login_text">Already have an account? Login</string>
+    <string name="register_text">Don't have an account? Register</string>
 
     <!-- Navigation -->
-    <string name="nav_lessons">Lezioni</string>
-    <string name="nav_answer">Rispondi</string>
-    <string name="nav_feedback">Dai Feedback</string>
-    <string name="nav_grades">Voti</string>
+    <string name="nav_lessons">Lessons</string>
+    <string name="nav_answer">Answer</string>
+    <string name="nav_feedback">Give Feedback</string>
+    <string name="nav_grades">Grades</string>
 
     <!-- Screen Titles -->
-    <string name="header_login">Accedi</string>
-    <string name="header_register">Registrati</string>
-    <string name="header_lessons">Lezioni </string>
-    <string name="header_answer">Rispondi</string>
-    <string name="header_feedback">Dai Feedback</string>
-    <string name="header_grades">Voti</string>
+    <string name="header_login">Login</string>
+    <string name="header_register">Register</string>
+    <string name="header_lessons">Lessons </string>
+    <string name="header_answer">Answer</string>
+    <string name="header_feedback">Give Feedback</string>
+    <string name="header_grades">Grades</string>
 
 
     <!-- Student Lessons Screen -->

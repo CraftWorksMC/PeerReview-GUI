@@ -15,19 +15,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.structuralEqualityPolicy
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.navigation.compose.rememberNavController
+import com.craftworks.peerreview.data.AppTheme
+import com.craftworks.peerreview.data.Theme
 import com.craftworks.peerreview.navigation.SetupNavGraph
 import com.craftworks.peerreview.ui.LoginScreen
 import com.craftworks.peerreview.ui.elements.DrawerContent
-import com.craftworks.peerreview.ui.theme.peerReviewColorScheme
-import org.jetbrains.compose.resources.ExperimentalResourceApi
+import com.craftworks.peerreview.ui.theme.PeerReviewTheme
 import java.awt.Dimension
+import java.util.Locale
 
 
 // Application entry point. Create window with minimum dimensions of 800x600.
@@ -38,10 +38,12 @@ fun main() = application {
         onCloseRequest = { exitApplication() },
         title = "PeerReview"
     ) {
+        Locale.setDefault(Locale.ENGLISH)
+
         window.minimumSize = Dimension(800, 600)
 
-        MaterialTheme(
-            colorScheme = peerReviewColorScheme
+        PeerReviewTheme(
+            darkTheme = AppTheme.current == Theme.Dark
         ) {
             var isLoggedIn by remember { mutableStateOf(false) }
 
@@ -59,7 +61,7 @@ fun main() = application {
                         drawerContent = {
                             PermanentDrawerSheet(
                                 Modifier.width(192.dp),
-                                drawerContainerColor = peerReviewColorScheme.surfaceContainer,
+                                drawerContainerColor = MaterialTheme.colorScheme.surfaceContainer,
                             ) {
                                 DrawerContent(
                                     onItemClick = { route ->
@@ -71,7 +73,7 @@ fun main() = application {
                             }
                         },
                         modifier = Modifier.fillMaxSize()
-                            .background(peerReviewColorScheme.surfaceContainer),
+                            .background(MaterialTheme.colorScheme.surfaceContainer),
                     ) {
                         SetupNavGraph(navController)
                     }

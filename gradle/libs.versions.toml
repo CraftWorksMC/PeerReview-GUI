@@ -1,9 +1,10 @@
 [versions]
-androidx-lifecycle = "2.8.0"
-compose-plugin = "1.6.11"
-kotlin = "2.0.20"
-ktor = "2.3.0"
-kotlinx-coroutines = "1.8.1"
+androidx-lifecycle = "2.8.4"
+compose-plugin = "1.7.1"
+kotlin = "2.1.0"
+ktor = "3.0.2"
+kotlinx-coroutines = "1.9.0"
+animation-desktop = "1.7.0"
 
 [libraries]
 androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
@@ -13,6 +14,7 @@ ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+androidx-animation-desktop = { group = "androidx.compose.animation", name = "animation-desktop", version.ref = "animation-desktop" }
 
 [plugins]
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }

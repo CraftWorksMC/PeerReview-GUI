@@ -17,6 +17,7 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -30,7 +31,6 @@ import com.craftworks.peerreview.navigation.Screen
 import com.craftworks.peerreview.ui.elements.EmptyViewItem
 import com.craftworks.peerreview.ui.elements.ScreenHeader
 import com.craftworks.peerreview.ui.elements.StudentFeedback
-import com.craftworks.peerreview.ui.theme.peerReviewColorScheme
 import com.craftworks.peerreview.ui.viewmodels.FeedbackViewModel
 import fadeGradient
 import org.jetbrains.compose.resources.stringResource
@@ -64,8 +64,8 @@ fun StudentGiveFeedbackScreen(
                 shape = RoundedCornerShape(12.dp),
                 colors = IconButtonDefaults.filledIconButtonColors()
                     .copy(
-                        containerColor = peerReviewColorScheme.surfaceContainer,
-                        contentColor = peerReviewColorScheme.onSurfaceVariant
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
                     )
             ) {
                 Icon(
@@ -80,7 +80,7 @@ fun StudentGiveFeedbackScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .fadeGradient(columnState, 24.dp),
+                .fadeGradient(columnState, 24.dp, MaterialTheme.colorScheme.background),
             contentPadding = PaddingValues(bottom = 6.dp),
             state = columnState,
             horizontalAlignment = Alignment.CenterHorizontally

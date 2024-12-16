@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
-import com.craftworks.peerreview.ui.theme.peerReviewColorScheme
 import org.jetbrains.compose.resources.Font
 import peerreview.composeapp.generated.resources.Outfit_Bold
 import peerreview.composeapp.generated.resources.Res
@@ -28,12 +27,12 @@ fun ScreenHeader(text: String) {
             .height(64.dp)
             .padding(12.dp, 12.dp, 12.dp, 6.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(peerReviewColorScheme.surfaceContainer)
+            .background(MaterialTheme.colorScheme.surfaceContainer)
     ) {
         Text(
             text = text,
             modifier = Modifier.align(Alignment.Center),
-            color = peerReviewColorScheme.onSurfaceVariant,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontFamily = FontFamily(Font(Res.font.Outfit_Bold)),
             fontSize = MaterialTheme.typography.headlineSmall.fontSize
         )

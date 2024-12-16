@@ -21,7 +21,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.craftworks.peerreview.data.legacy.PeerReviewAnswerData
-import com.craftworks.peerreview.ui.theme.peerReviewColorScheme
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -43,11 +42,11 @@ fun StudentQuestionGrade(data: PeerReviewAnswerData) {
             .padding(horizontal = 12.dp, vertical = 6.dp),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors()
-            .copy(containerColor = peerReviewColorScheme.surfaceContainer),
+            .copy(containerColor = MaterialTheme.colorScheme.surfaceContainer),
     ) {
         Text(
             text = data.question_text,
-            color = peerReviewColorScheme.onSurfaceVariant,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontFamily = FontFamily(Font(Res.font.Outfit_Bold)),
             fontSize = MaterialTheme.typography.titleMedium.fontSize,
             modifier = Modifier.fillMaxWidth().wrapContentHeight()
@@ -57,7 +56,7 @@ fun StudentQuestionGrade(data: PeerReviewAnswerData) {
 
         Text(
             text = data.answer_text,
-            color = peerReviewColorScheme.onSurfaceVariant,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
             fontSize = MaterialTheme.typography.bodyLarge.fontSize,
             modifier = Modifier.padding(12.dp)
@@ -68,11 +67,11 @@ fun StudentQuestionGrade(data: PeerReviewAnswerData) {
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
                 shape = RoundedCornerShape(6.dp),
                 colors = CardDefaults.cardColors()
-                    .copy(containerColor = peerReviewColorScheme.surfaceContainerHigh)
+                    .copy(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh)
             ) {
                 Text(
                     text = stringResource(Res.string.grades_feedback),
-                    color = peerReviewColorScheme.onSurfaceVariant,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontFamily = FontFamily(Font(Res.font.Outfit_Bold)),
                     fontSize = MaterialTheme.typography.titleMedium.fontSize,
                     modifier = Modifier.fillMaxWidth().wrapContentHeight()
@@ -82,7 +81,7 @@ fun StudentQuestionGrade(data: PeerReviewAnswerData) {
 
                 Text(
                     text = feedback.feedback_text,
-                    color = peerReviewColorScheme.onSurfaceVariant,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
                     fontSize = MaterialTheme.typography.bodyLarge.fontSize,
                     modifier = Modifier.padding(start = 12.dp)
@@ -90,7 +89,7 @@ fun StudentQuestionGrade(data: PeerReviewAnswerData) {
 
                 Text(
                     text = stringResource(Res.string.grades_missing_elements),
-                    color = peerReviewColorScheme.onSurfaceVariant,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontFamily = FontFamily(Font(Res.font.Outfit_Bold)),
                     fontSize = MaterialTheme.typography.titleMedium.fontSize,
                     modifier = Modifier.fillMaxWidth().wrapContentHeight()
@@ -100,7 +99,7 @@ fun StudentQuestionGrade(data: PeerReviewAnswerData) {
 
                 Text(
                     text = feedback.missing_elements,
-                    color = peerReviewColorScheme.onSurfaceVariant,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
                     fontSize = MaterialTheme.typography.bodyLarge.fontSize,
                     modifier = Modifier.padding(start = 12.dp, bottom = 12.dp)
@@ -112,7 +111,7 @@ fun StudentQuestionGrade(data: PeerReviewAnswerData) {
                     // Grade
                     Text(
                         text = stringResource(Res.string.grades_grade) + feedback.grade,
-                        color = if (feedback.grade < 6) peerReviewColorScheme.error else peerReviewColorScheme.onSurfaceVariant,
+                        color = if (feedback.grade < 6) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant,
                         fontFamily = FontFamily(Font(Res.font.Outfit_Bold)),
                         fontSize = MaterialTheme.typography.titleMedium.fontSize,
                         modifier = Modifier.align(Alignment.TopStart)
@@ -125,7 +124,7 @@ fun StudentQuestionGrade(data: PeerReviewAnswerData) {
                             text = stringResource(Res.string.grades_created) + formatDateTime(
                                 feedback.created_at
                             ),
-                            color = peerReviewColorScheme.onSurfaceVariant.copy(0.75f),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(0.75f),
                             fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
                             fontSize = MaterialTheme.typography.bodySmall.fontSize,
                             modifier = Modifier.align(Alignment.BottomStart)

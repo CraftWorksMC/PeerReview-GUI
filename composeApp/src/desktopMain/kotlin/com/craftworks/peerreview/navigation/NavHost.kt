@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -22,7 +23,6 @@ import com.craftworks.peerreview.ui.StudentAnswerScreen
 import com.craftworks.peerreview.ui.StudentGiveFeedbackScreen
 import com.craftworks.peerreview.ui.StudentGradeScreen
 import com.craftworks.peerreview.ui.StudentLessonsScreen
-import com.craftworks.peerreview.ui.theme.peerReviewColorScheme
 import com.craftworks.peerreview.ui.viewmodels.AnswersViewModel
 import com.craftworks.peerreview.ui.viewmodels.FeedbackViewModel
 import com.craftworks.peerreview.ui.viewmodels.GradesViewmodel
@@ -49,7 +49,7 @@ fun SetupNavGraph(
             fadeOut(tween(400))
         },
         modifier = Modifier.fillMaxSize().padding(12.dp).clip(RoundedCornerShape(24.dp))
-            .background(peerReviewColorScheme.background)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         println("Recomposing NavHost!")
 

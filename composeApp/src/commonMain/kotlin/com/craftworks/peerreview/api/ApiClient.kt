@@ -32,7 +32,6 @@ object ApiClient {
 
     var client: HttpClient = createClient()
 
-    @OptIn(ExperimentalSerializationApi::class)
     private fun createClient(): HttpClient {
         return HttpClient(CIO) {
             install(HttpTimeout) {

@@ -1,12 +1,11 @@
 package com.craftworks.peerreview.ui.elements
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Text
@@ -15,13 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.craftworks.peerreview.navigation.Screen
-import com.craftworks.peerreview.ui.theme.peerReviewColorScheme
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import peerreview.composeapp.generated.resources.BaobabLogoNew
 import peerreview.composeapp.generated.resources.Res
 import peerreview.composeapp.generated.resources.nav_answer
 import peerreview.composeapp.generated.resources.nav_lessons
@@ -30,7 +25,7 @@ import java.awt.Cursor
 @Composable
 fun DrawerContent(onItemClick: (String) -> Unit) {
     val navigationDrawerColors = NavigationDrawerItemDefaults.colors(
-        selectedContainerColor = peerReviewColorScheme.primary,
+        selectedContainerColor = MaterialTheme.colorScheme.primary,
         unselectedContainerColor = Color.Transparent,
     )
 
@@ -38,12 +33,12 @@ fun DrawerContent(onItemClick: (String) -> Unit) {
         modifier = Modifier.padding(12.dp)
     ) {
         // Baobab.school Logo
-        Image(
-            painter = painterResource(Res.drawable.BaobabLogoNew),
-            contentScale = ContentScale.FillWidth,
-            contentDescription = "Baobab.school Logo",
-            modifier = Modifier.fillMaxWidth().height(48.dp)
-        )
+//        Image(
+//            painter = painterResource(Res.drawable.BaobabLogoNew),
+//            contentScale = ContentScale.FillWidth,
+//            contentDescription = "Baobab.school Logo",
+//            modifier = Modifier.fillMaxWidth().height(48.dp)
+//        )
 
         Spacer(modifier = Modifier.height(18.dp))
 

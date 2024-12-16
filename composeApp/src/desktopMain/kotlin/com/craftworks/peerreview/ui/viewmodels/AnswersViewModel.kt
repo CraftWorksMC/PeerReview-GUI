@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class AnswersViewModel() : ViewModel(), ReloadableViewModel {
+class AnswersViewModel : ViewModel(), ReloadableViewModel {
     private val _studentQuestions = MutableStateFlow<List<PeerReviewLessonData>>(mutableListOf())
     val studentQuestions: StateFlow<List<PeerReviewLessonData>> = _studentQuestions.asStateFlow()
 

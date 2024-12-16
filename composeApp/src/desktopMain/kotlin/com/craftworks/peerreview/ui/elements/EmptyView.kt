@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
-import com.craftworks.peerreview.ui.theme.peerReviewColorScheme
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.StringResource
@@ -38,7 +37,7 @@ fun EmptyViewItem(
 
         Text(
             text = stringResource(text),
-            color = peerReviewColorScheme.onSurfaceVariant,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontFamily = FontFamily(Font(Res.font.Outfit_Bold)),
             fontSize = MaterialTheme.typography.titleLarge.fontSize,
             modifier = Modifier.padding(12.dp)

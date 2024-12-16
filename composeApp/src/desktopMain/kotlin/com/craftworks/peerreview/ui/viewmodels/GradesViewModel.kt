@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class GradesViewmodel() : ViewModel(), ReloadableViewModel {
+class GradesViewmodel : ViewModel(), ReloadableViewModel {
     private val _currentLessonId = MutableStateFlow(-1)
     val currentLessonId: StateFlow<Int> = _currentLessonId.asStateFlow()
 

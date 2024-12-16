@@ -2,21 +2,25 @@ package com.craftworks.peerreview.ui
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.DarkMode
+import androidx.compose.material.icons.rounded.LightMode
 import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -31,13 +35,15 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.scale
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -46,26 +52,22 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.craftworks.peerreview.api.ApiClient
 import com.craftworks.peerreview.api.ApiRepository
-import com.craftworks.peerreview.api.ApiRoutes
+import com.craftworks.peerreview.data.AppTheme
 import com.craftworks.peerreview.data.PeerReviewRole
+import com.craftworks.peerreview.data.Theme
 import com.craftworks.peerreview.data.User
 import com.craftworks.peerreview.loadData
 import com.craftworks.peerreview.ui.elements.RegisterLoginToggle
-import com.craftworks.peerreview.ui.theme.peerReviewColorScheme
+import com.craftworks.peerreview.ui.elements.ScreenHeader
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
-import io.ktor.http.HttpStatusCode
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
-import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
-import peerreview.composeapp.generated.resources.Outfit_Bold
 import peerreview.composeapp.generated.resources.Res
-import peerreview.composeapp.generated.resources.login_text
-import peerreview.composeapp.generated.resources.register_text
+import peerreview.composeapp.generated.resources.header_login
+import peerreview.composeapp.generated.resources.header_register
 import java.awt.Cursor
 
 @Composable
@@ -112,29 +114,14 @@ fun LoginScreen(onLoginSuccess: (user: User) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(peerReviewColorScheme.background),
+            .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Header
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(64.dp)
-                .padding(12.dp)
-                .clip(RoundedCornerShape(12.dp))
-                .background(peerReviewColorScheme.surfaceContainer)
-        ) {
-            Text(
-                text = if (isRegister)
-                    stringResource(Res.string.register_text).split("? ").last()
-                else
-                    stringResource(Res.string.login_text).split("? ").last(),
-                modifier = Modifier.align(Alignment.Center),
-                color = peerReviewColorScheme.onSurfaceVariant,
-                fontFamily = FontFamily(Font(Res.font.Outfit_Bold)),
-                fontSize = MaterialTheme.typography.headlineSmall.fontSize
-            )
-        }
+        ScreenHeader(if (isRegister)
+            stringResource(Res.string.header_register)
+        else
+            stringResource(Res.string.header_login)
+        )
 
         // Register name TextField
         AnimatedVisibility(isRegister) {
@@ -185,7 +172,10 @@ fun LoginScreen(onLoginSuccess: (user: User) -> Unit) {
             trailingIcon = {
                 val icon =
                     if (passwordVisible) Icons.Rounded.Visibility else Icons.Rounded.VisibilityOff
-                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                IconButton(
+                    onClick = { passwordVisible = !passwordVisible },
+                    modifier = Modifier.pointerHoverIcon(PointerIcon(Cursor(Cursor.HAND_CURSOR)))
+                ) {
                     Icon(
                         imageVector = icon,
                         contentDescription = if (passwordVisible) "Nascondi passowrd" else "Mostra password"
@@ -259,16 +249,16 @@ fun LoginScreen(onLoginSuccess: (user: User) -> Unit) {
             ) {
                 if (it) {
                     CircularProgressIndicator(
-                        color = peerReviewColorScheme.onPrimary,
+                        color = MaterialTheme.colorScheme.onPrimary,
                         strokeWidth = 4.dp,
                         strokeCap = StrokeCap.Round
                     )
                 } else {
                     Text(
                         if (isRegister)
-                            stringResource(Res.string.register_text).split("? ").last()
+                            stringResource(Res.string.header_register)
                         else
-                            stringResource(Res.string.login_text).split("? ").last()
+                            stringResource(Res.string.header_login)
                     )
                 }
             }
@@ -280,5 +270,37 @@ fun LoginScreen(onLoginSuccess: (user: User) -> Unit) {
             onClick = { isRegister = !isRegister },
             isRegister = isRegister
         )
+    }
+
+    Box(
+        modifier = Modifier.fillMaxSize().padding(12.dp),
+        contentAlignment = Alignment.BottomStart
+    ) {
+        FloatingActionButton(
+            onClick = {
+                AppTheme.set(
+                    if (AppTheme.current == Theme.Dark)
+                        Theme.Light
+                    else
+                        Theme.Dark
+                )
+            },
+            modifier = Modifier.pointerHoverIcon(
+                PointerIcon(Cursor(Cursor.HAND_CURSOR))
+            )
+        ) {
+            Crossfade(targetState = AppTheme.current) { theme ->
+                val targetScale = if (theme == Theme.Light) 0.9f else 1.2f
+                val scale = animateFloatAsState(targetValue = targetScale)
+                Icon(
+                    imageVector = if (theme == Theme.Light) Icons.Rounded.DarkMode else Icons.Rounded.LightMode,
+                    contentDescription = "Cambia tema",
+                    modifier = Modifier.graphicsLayer {
+                        scaleX = scale.value
+                        scaleY = scale.value
+                    }
+                )
+            }
+        }
     }
 }

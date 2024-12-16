@@ -37,7 +37,6 @@ import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.craftworks.peerreview.ui.theme.peerReviewColorScheme
 import com.craftworks.peerreview.ui.viewmodels.FeedbackViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -90,11 +89,11 @@ fun StudentFeedback(
                 .padding(12.dp),
             shape = RoundedCornerShape(12.dp),
             colors = CardDefaults.cardColors()
-                .copy(containerColor = peerReviewColorScheme.surfaceContainer),
+                .copy(containerColor = MaterialTheme.colorScheme.surfaceContainer),
         ) {
             Text(
                 text = data?.question!!,
-                color = peerReviewColorScheme.onSurfaceVariant,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontFamily = FontFamily(Font(Res.font.Outfit_Bold)),
                 fontSize = MaterialTheme.typography.titleMedium.fontSize,
                 modifier = Modifier.fillMaxWidth().wrapContentHeight()
@@ -103,7 +102,7 @@ fun StudentFeedback(
             )
             Text(
                 text = data?.answer_text!!,
-                color = peerReviewColorScheme.onSurfaceVariant,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
                 fontSize = MaterialTheme.typography.bodyLarge.fontSize,
                 modifier = Modifier.fillMaxWidth().wrapContentHeight()
@@ -117,7 +116,7 @@ fun StudentFeedback(
                 label = {
                     Text(
                         text = stringResource(Res.string.feedback_feedback_text),
-                        color = peerReviewColorScheme.onSurfaceVariant,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontFamily = FontFamily(Font(Res.font.Outfit_Bold)),
                         fontSize = MaterialTheme.typography.titleMedium.fontSize,
                         textAlign = TextAlign.Left
@@ -134,7 +133,7 @@ fun StudentFeedback(
                 label = {
                     Text(
                         text = stringResource(Res.string.feedback_missing_elements),
-                        color = peerReviewColorScheme.onSurfaceVariant,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontFamily = FontFamily(Font(Res.font.Outfit_Bold)),
                         fontSize = MaterialTheme.typography.titleMedium.fontSize,
                         textAlign = TextAlign.Left
@@ -154,7 +153,7 @@ fun StudentFeedback(
             Column(modifier = Modifier.padding(12.dp)) {
                 Text(
                     text = "Voto: $grade",
-                    color = peerReviewColorScheme.onSurfaceVariant,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontFamily = FontFamily(Font(Res.font.Outfit_Bold)),
                     fontSize = MaterialTheme.typography.titleMedium.fontSize,
                     textAlign = TextAlign.Left,
@@ -198,7 +197,7 @@ fun StudentFeedback(
                 )
                 Text(
                     text = stringResource(Res.string.answer_isChatGpt),
-                    color = peerReviewColorScheme.onSurfaceVariant,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
                     fontSize = MaterialTheme.typography.bodyLarge.fontSize,
                     modifier = Modifier.wrapContentHeight().padding(start = 6.dp),
@@ -240,7 +239,7 @@ fun StudentFeedback(
                 ) {
                     Text(
                         text = stringResource(Res.string.answer_send),
-                        color = peerReviewColorScheme.onPrimary,
+                        color = MaterialTheme.colorScheme.onPrimary,
                         fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
                         fontSize = MaterialTheme.typography.bodyLarge.fontSize,
                         modifier = Modifier.wrapContentHeight().padding(start = 6.dp),

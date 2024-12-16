@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollbarAdapter
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -41,7 +42,7 @@ fun StudentAnswerScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .fadeGradient(columnState, 24.dp),
+                .fadeGradient(columnState, 24.dp, MaterialTheme.colorScheme.background),
             contentPadding = PaddingValues(bottom = 6.dp),
             state = columnState,
             horizontalAlignment = Alignment.CenterHorizontally

@@ -1,147 +1,150 @@
 package com.craftworks.peerreview.ui.elements
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.craftworks.peerreview.data.legacy.StudentLessonsTableData
-import com.craftworks.peerreview.navigation.Screen
-import com.craftworks.peerreview.ui.theme.peerReviewColorScheme
-import org.jetbrains.compose.resources.Font
-import peerreview.composeapp.generated.resources.Outfit_Light
-import peerreview.composeapp.generated.resources.Res
+import androidx.navigation.compose.rememberNavController
+import com.craftworks.peerreview.data.Lesson
 import java.awt.Cursor
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+
+@Composable
+@androidx.compose.desktop.ui.tooling.preview.Preview
+fun StudentLessonPreview() {
+    StudentLesson(
+        Lesson(
+            1,
+            "Titolo della lezione",
+            "Descrizione abbastanza corta della lezione svolta.",
+            "Prof",
+            1,
+            "15 Dicembre 2024",
+            "17 Dicembre 2024",
+            listOf("Question 1", "Question 2", "Question 3")
+        ),
+        rememberNavController()
+    )
+}
+
 @Composable
 fun StudentLesson(
-    data: StudentLessonsTableData,
+    lesson: Lesson,
     navController: NavController
 ) {
-    // ID / Title / Created At / First Deadline / Questions made / Second Deadline / Feedback made
-    Row(
+    Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 6.dp)
-            .wrapContentHeight()
-            .heightIn(min = 32.dp, max = 64.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(peerReviewColorScheme.surfaceContainer)
-            .clickable {
-                navController.navigate(Screen.S_Grades.createRoute(data.id)) {
-                    launchSingleTop = true
+            .padding(horizontal = 12.dp, vertical = 6.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Row {
+            Column(
+                modifier = Modifier
+                    .padding(12.dp)
+                    .weight(1f)
+                    .height(128.dp)
+            ) {
+                // Lesson Title
+                Text(
+                    text = lesson.title,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold
+                )
+
+                // Description
+                Text(
+                    text = lesson.description,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+
+                Spacer(Modifier.weight(1f))
+
+
+                // Deadline
+                Text(
+                    text = "Scadenza: ${lesson.deadline}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.error,
+                )
+                // Created By
+                Text(
+                    text = "Creato da ${lesson.createdBy} il ${lesson.createdAt}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.Gray
+                )
+            }
+
+            Column(
+                modifier = Modifier
+                    .padding(12.dp)
+                    .width(192.dp)
+                    .height(128.dp),
+                verticalArrangement = Arrangement.SpaceEvenly
+            ) {
+                // View Questions Button
+                Button(
+                    onClick = {
+                        navController.navigate("questions/${lesson.id}")
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .pointerHoverIcon(
+                            PointerIcon(
+                                Cursor(Cursor.HAND_CURSOR)
+                            )
+                        ),
+                    shape = RoundedCornerShape(12.dp),
+                    enabled = lesson.questions.isNotEmpty()
+                ) {
+                    Text(
+                        text = if (lesson.questions.isNotEmpty())
+                            "Mostra ${lesson.questions.size} Domand${if (lesson.questions.size != 1) "e" else "a"}"
+                        else
+                            "Niente Domande"
+                    )
+                }
+                // Give feedback Button
+                Button(
+                    onClick = {
+                        navController.navigate("feedback/${lesson.id}")
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .pointerHoverIcon(
+                            PointerIcon(
+                                Cursor(Cursor.HAND_CURSOR)
+                            )
+                        ),
+                    shape = RoundedCornerShape(12.dp),
+                    enabled = lesson.questions.isNotEmpty()
+                ) {
+                    Text(
+                        text = "Dai Feedback"
+                    )
                 }
             }
-            .pointerHoverIcon(PointerIcon(Cursor(Cursor.HAND_CURSOR))),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = data.id.toString(),
-            color = peerReviewColorScheme.onSurfaceVariant,
-            fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
-            fontSize = MaterialTheme.typography.titleMedium.fontSize,
-            modifier = Modifier.width(32.dp).wrapContentHeight(),
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-            textAlign = TextAlign.Center
-        )
-        VerticalDivider(color = peerReviewColorScheme.surfaceBright)
-        Text(
-            text = data.title,
-            color = peerReviewColorScheme.onSurfaceVariant,
-            fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
-            fontSize = MaterialTheme.typography.titleMedium.fontSize,
-            modifier = Modifier.weight(1f).wrapContentHeight().padding(horizontal = 6.dp),
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
-        )
-        VerticalDivider(color = peerReviewColorScheme.surfaceBright)
-        Text(
-            text = formatDateTime(data.created_at),
-            color = peerReviewColorScheme.onSurfaceVariant,
-            fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
-            fontSize = MaterialTheme.typography.titleMedium.fontSize,
-            modifier = Modifier.weight(1f).wrapContentHeight().padding(horizontal = 6.dp),
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
-        )
-        VerticalDivider(color = peerReviewColorScheme.surfaceBright)
-        Text(
-            text = formatDateTime(data.first_deadline),
-            color = peerReviewColorScheme.onSurfaceVariant,
-            fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
-            fontSize = MaterialTheme.typography.titleMedium.fontSize,
-            modifier = Modifier.weight(1f).wrapContentHeight().padding(horizontal = 6.dp),
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
-        )
-        VerticalDivider(color = peerReviewColorScheme.surfaceBright)
-        Text(
-            text = data.count_questions_made.toString(),
-            color = if (data.count_questions_made == 0) peerReviewColorScheme.error else peerReviewColorScheme.onSurfaceVariant,
-            fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
-            fontSize = MaterialTheme.typography.titleMedium.fontSize,
-            modifier = Modifier.weight(1f).wrapContentHeight().padding(horizontal = 6.dp),
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-            textAlign = TextAlign.Center
-        )
-        VerticalDivider(color = peerReviewColorScheme.surfaceBright)
-        Text(
-            text = formatDateTime(data.second_deadline),
-            color = peerReviewColorScheme.onSurfaceVariant,
-            fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
-            fontSize = MaterialTheme.typography.titleMedium.fontSize,
-            modifier = Modifier.weight(1f).wrapContentHeight().padding(horizontal = 6.dp),
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
-        )
-        VerticalDivider(color = peerReviewColorScheme.surfaceBright)
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight()
-                .padding(horizontal = 6.dp, vertical = 6.dp)
-                .clip(RoundedCornerShape(12.dp))
-                .clickable {
-                    navController.navigate(Screen.S_Feedback.createRoute(data.id)) {
-                        launchSingleTop = true
-                    }
-                }
-                .pointerHoverIcon(PointerIcon(Cursor(Cursor.HAND_CURSOR))),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = data.count_feedback_made.toString(),
-                color = if (data.count_feedback_made == 0) peerReviewColorScheme.error else peerReviewColorScheme.onSurfaceVariant,
-                fontFamily = FontFamily(Font(Res.font.Outfit_Light)),
-                fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                textAlign = TextAlign.Center
-            )
         }
 
     }
